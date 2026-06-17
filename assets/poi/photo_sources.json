@@ -1,0 +1,447 @@
+{
+  "generatedAt": "2026-06-17T16:40:22.174Z",
+  "count": 55,
+  "failures": [],
+  "sources": {
+    "geysir": {
+      "file": "assets/poi/geysir.jpg",
+      "zh": "盖歇尔间歇泉",
+      "local": "Geysir",
+      "title": "Geysir",
+      "page": "https://en.wikipedia.org/wiki/Geysir",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Erupting_geysir.jpg"
+    },
+    "gullfoss": {
+      "file": "assets/poi/gullfoss.jpg",
+      "zh": "黄金瀑布",
+      "local": "Gullfoss",
+      "title": "Gullfoss",
+      "page": "https://en.wikipedia.org/wiki/Gullfoss",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Gullfoss_from_the_Air_%28cropped%29.jpg/960px-Gullfoss_from_the_Air_%28cropped%29.jpg"
+    },
+    "kef": {
+      "file": "assets/poi/kef.jpg",
+      "zh": "凯夫拉维克机场",
+      "local": "Keflavik International Airport",
+      "title": "Keflavík International Airport",
+      "page": "https://en.wikipedia.org/wiki/Keflav%C3%ADk_International_Airport",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/SSJ100_Keflavik_runways_%285160518757%29.jpg/1280px-SSJ100_Keflavik_runways_%285160518757%29.jpg"
+    },
+    "reykjavik": {
+      "file": "assets/poi/reykjavik.jpg",
+      "zh": "雷克雅未克",
+      "local": "Reykjavik",
+      "title": "Reykjavík",
+      "page": "https://en.wikipedia.org/wiki/Reykjav%C3%ADk",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Reykjav%C3%ADk%2C_view_from_Hallgr%C3%ADmskirkja_%282%29.jpg/1280px-Reykjav%C3%ADk%2C_view_from_Hallgr%C3%ADmskirkja_%282%29.jpg"
+    },
+    "thingvellir": {
+      "file": "assets/poi/thingvellir.jpg",
+      "zh": "辛格维利尔国家公园",
+      "local": "Thingvellir National Park",
+      "title": "Þingvellir",
+      "page": "https://en.wikipedia.org/wiki/%C3%9Eingvellir",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/%C3%9Eingvellir_from_the_information_centre.JPG/1280px-%C3%9Eingvellir_from_the_information_centre.JPG"
+    },
+    "kerid": {
+      "file": "assets/poi/kerid.jpg",
+      "zh": "火山口湖",
+      "local": "Kerid Crater",
+      "title": "Kerið",
+      "page": "https://en.wikipedia.org/wiki/Keri%C3%B0",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/A_girl_standing_on_top_of_Keri%C3%B0.jpg/1280px-A_girl_standing_on_top_of_Keri%C3%B0.jpg"
+    },
+    "skogafoss": {
+      "file": "assets/poi/skogafoss.jpg",
+      "zh": "斯科加瀑布",
+      "local": "Skogafoss",
+      "title": "Skógafoss",
+      "page": "https://en.wikipedia.org/wiki/Sk%C3%B3gafoss",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/2008-05-24_35_Sk%C3%B3gafoss.jpg/960px-2008-05-24_35_Sk%C3%B3gafoss.jpg"
+    },
+    "reynisfjara": {
+      "file": "assets/poi/reynisfjara.jpg",
+      "zh": "雷尼斯黑沙滩",
+      "local": "Reynisfjara",
+      "title": "Reynisfjara",
+      "page": "https://en.wikipedia.org/wiki/Reynisfjara",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Reynisfjara_Beach_Looking_West_Towards_Dyrh%C3%B3laey.jpg/1280px-Reynisfjara_Beach_Looking_West_Towards_Dyrh%C3%B3laey.jpg"
+    },
+    "jokulsarlon": {
+      "file": "assets/poi/jokulsarlon.jpg",
+      "zh": "杰古沙龙冰河湖",
+      "local": "Jokulsarlon",
+      "title": "Jökulsárlón",
+      "page": "https://en.wikipedia.org/wiki/J%C3%B6kuls%C3%A1rl%C3%B3n",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/J%C3%B6kuls%C3%A1rl%C3%B3n_lagoon_in_southeastern_Iceland.jpg/1280px-J%C3%B6kuls%C3%A1rl%C3%B3n_lagoon_in_southeastern_Iceland.jpg"
+    },
+    "djupivogur": {
+      "file": "assets/poi/djupivogur.jpg",
+      "zh": "都皮沃古尔",
+      "local": "Djupivogur",
+      "title": "Djúpivogur",
+      "page": "https://en.wikipedia.org/wiki/Dj%C3%BApivogur",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/1_aerial_pano_Dj%C3%BApivogur_2017.jpg/1280px-1_aerial_pano_Dj%C3%BApivogur_2017.jpg"
+    },
+    "dettifoss": {
+      "file": "assets/poi/dettifoss.jpg",
+      "zh": "代提瀑布",
+      "local": "Dettifoss",
+      "title": "Dettifoss",
+      "page": "https://en.wikipedia.org/wiki/Dettifoss",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Dettifoss_TimBekaert.JPG/1280px-Dettifoss_TimBekaert.JPG"
+    },
+    "akureyri": {
+      "file": "assets/poi/akureyri.jpg",
+      "zh": "阿克雷里",
+      "local": "Akureyri",
+      "title": "Akureyri",
+      "page": "https://en.wikipedia.org/wiki/Akureyri",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Akureyri_-_Skapti_Hallgr%C3%ADmsson.jpg/1280px-Akureyri_-_Skapti_Hallgr%C3%ADmsson.jpg"
+    },
+    "hvitserkur": {
+      "file": "assets/poi/hvitserkur.jpg",
+      "zh": "犀牛石",
+      "local": "Hvitserkur",
+      "title": "Hvítserkur",
+      "page": "https://en.wikipedia.org/wiki/Hv%C3%ADtserkur",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Hv%C3%ADtserkur.JPG/1280px-Hv%C3%ADtserkur.JPG"
+    },
+    "hornstrandir": {
+      "file": "assets/poi/hornstrandir.jpg",
+      "zh": "豪斯川迪尔自然保护区",
+      "local": "Hornstrandir",
+      "title": "Hornstrandir",
+      "page": "https://en.wikipedia.org/wiki/Hornstrandir",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Westfjords_Region%2C_Iceland_-_panoramio_%2817%29.jpg/1280px-Westfjords_Region%2C_Iceland_-_panoramio_%2817%29.jpg"
+    },
+    "dynjandi": {
+      "file": "assets/poi/dynjandi.jpg",
+      "zh": "丁坚地瀑布",
+      "local": "Dynjandi",
+      "title": "Dynjandi",
+      "page": "https://en.wikipedia.org/wiki/Dynjandi",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Cascada_Dynjandi%2C_Vestfir%C3%B0ir%2C_Islandia%2C_2014-08-14%2C_DD_136-138_HDR.JPG/960px-Cascada_Dynjandi%2C_Vestfir%C3%B0ir%2C_Islandia%2C_2014-08-14%2C_DD_136-138_HDR.JPG"
+    },
+    "latrabjarg": {
+      "file": "assets/poi/latrabjarg.jpg",
+      "zh": "拉特拉尔角海鸟悬崖",
+      "local": "Latrabjarg",
+      "title": "Látrabjarg",
+      "page": "https://en.wikipedia.org/wiki/L%C3%A1trabjarg",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Iceland2008-Latrabjarg.cliff.JPG/1280px-Iceland2008-Latrabjarg.cliff.JPG"
+    },
+    "kirkjufell": {
+      "file": "assets/poi/kirkjufell.jpg",
+      "zh": "教会山 / 草帽山",
+      "local": "Kirkjufell",
+      "title": "Kirkjufell",
+      "page": "https://en.wikipedia.org/wiki/Kirkjufell",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Kirkjufell_in_Iceland.jpg/1280px-Kirkjufell_in_Iceland.jpg"
+    },
+    "sky": {
+      "file": "assets/poi/sky.jpg",
+      "zh": "Sky Lagoon",
+      "local": "Sky Lagoon",
+      "title": "Sky Lagoon",
+      "page": "https://en.wikipedia.org/wiki/Sky_Lagoon",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Sky_Lagoon_Exterior.jpg/1280px-Sky_Lagoon_Exterior.jpg"
+    },
+    "bruarfoss": {
+      "file": "assets/poi/bruarfoss.jpg",
+      "zh": "布鲁阿瀑布",
+      "local": "Bruarfoss",
+      "title": "Brúarfoss waterfall Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Br%C3%BAarfoss%20waterfall%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/The_blue_waterfall_-_Bruarfoss_-_Iceland_%2841967794764%29.jpg/250px-The_blue_waterfall_-_Bruarfoss_-_Iceland_%2841967794764%29.jpg"
+    },
+    "landmannalaugar": {
+      "file": "assets/poi/landmannalaugar.jpg",
+      "zh": "兰德曼纳高地",
+      "local": "Landmannalaugar",
+      "title": "Landmannalaugar Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Landmannalaugar%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Landmannalaugar_Iceland_2005_2.JPG/250px-Landmannalaugar_Iceland_2005_2.JPG"
+    },
+    "dc3": {
+      "file": "assets/poi/dc3.jpg",
+      "zh": "DC-3 飞机残骸",
+      "local": "Solheimasandur Plane Wreck",
+      "title": "Sólheimasandur plane wreck",
+      "page": "https://commons.wikimedia.org/w/index.php?search=S%C3%B3lheimasandur%20plane%20wreck&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/S%C3%B3lheimasandur_Plane_Wreck%2C_South_Iceland_%2826145906759%29.jpg/250px-S%C3%B3lheimasandur_Plane_Wreck%2C_South_Iceland_%2826145906759%29.jpg"
+    },
+    "vik": {
+      "file": "assets/poi/vik.jpg",
+      "zh": "维克",
+      "local": "Vik",
+      "title": "Vík í Mýrdal Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=V%C3%ADk%20%C3%AD%20M%C3%BDrdal%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/V%C3%ADk_%C3%AD_M%C3%BDrdal_2.JPG/250px-V%C3%ADk_%C3%AD_M%C3%BDrdal_2.JPG"
+    },
+    "dyrholaey": {
+      "file": "assets/poi/dyrholaey.jpg",
+      "zh": "迪霍拉里海角",
+      "local": "Dyrholaey",
+      "title": "Dyrhólaey Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Dyrh%C3%B3laey%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Dyrh%C3%B3laey_lighthouse%2C_Dyrh%C3%B3laey%2C_M%C3%BDrdalshreppur%2C_Iceland%2C_20240720_0938_2871.jpg/250px-Dyrh%C3%B3laey_lighthouse%2C_Dyrh%C3%B3laey%2C_M%C3%BDrdalshreppur%2C_Iceland%2C_20240720_0938_2871.jpg"
+    },
+    "fjadra": {
+      "file": "assets/poi/fjadra.png",
+      "zh": "羽毛峡谷",
+      "local": "Fjadrargljufur",
+      "title": "Fjaðrárgljúfur",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Fja%C3%B0r%C3%A1rglj%C3%BAfur&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Fjathrarglijufur.png/250px-Fjathrarglijufur.png"
+    },
+    "skaftafell": {
+      "file": "assets/poi/skaftafell.jpg",
+      "zh": "斯卡夫塔山",
+      "local": "Skaftafell",
+      "title": "Skaftafell Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Skaftafell%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Sandur_Skaftafell_Iceland.jpg/250px-Sandur_Skaftafell_Iceland.jpg"
+    },
+    "fjallsarlon": {
+      "file": "assets/poi/fjallsarlon.jpg",
+      "zh": "Fjallsarlon 冰湖",
+      "local": "Fjallsarlon",
+      "title": "Fjallsárlón",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Fjalls%C3%A1rl%C3%B3n&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Fjallsarlon_-_Iceberg_Lagoon.jpg/250px-Fjallsarlon_-_Iceberg_Lagoon.jpg"
+    },
+    "hofn": {
+      "file": "assets/poi/hofn.jpg",
+      "zh": "赫本",
+      "local": "Hofn",
+      "title": "Höfn Iceland harbor",
+      "page": "https://commons.wikimedia.org/w/index.php?search=H%C3%B6fn%20Iceland%20harbor&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Iceland_H%C3%B6fn.jpg/250px-Iceland_H%C3%B6fn.jpg"
+    },
+    "hvalnes": {
+      "file": "assets/poi/hvalnes.jpg",
+      "zh": "Hvalnes 自然保护区海滩",
+      "local": "Hvalnes Nature Reserve Beach",
+      "title": "Hvalnes lighthouse Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Hvalnes%20lighthouse%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Hvalnes_Lighthouse.jpg/250px-Hvalnes_Lighthouse.jpg"
+    },
+    "egils": {
+      "file": "assets/poi/egils.jpg",
+      "zh": "埃伊尔斯塔济",
+      "local": "Egilsstadir",
+      "title": "Egilsstaðir Iceland town",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Egilssta%C3%B0ir%20Iceland%20town&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Egilssta%C3%B0ir_harbor.jpg/250px-Egilssta%C3%B0ir_harbor.jpg"
+    },
+    "seydis": {
+      "file": "assets/poi/seydis.jpg",
+      "zh": "塞济斯菲厄泽",
+      "local": "Seydisfjordur",
+      "title": "Seyðisfjörður Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Sey%C3%B0isfj%C3%B6r%C3%B0ur%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Church_in_Sey%C3%B0isfj%C3%B6r%C3%B0ur%2C_Iceland%2C_20240717_1448_1737.jpg/250px-Church_in_Sey%C3%B0isfj%C3%B6r%C3%B0ur%2C_Iceland%2C_20240717_1448_1737.jpg"
+    },
+    "studlagil": {
+      "file": "assets/poi/studlagil.jpg",
+      "zh": "斯图德拉吉尔峡谷",
+      "local": "Studlagil",
+      "title": "Stuðlagil canyon",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Stu%C3%B0lagil%20canyon&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Stu%C3%B0lagil_Canyon_1.jpg/250px-Stu%C3%B0lagil_Canyon_1.jpg"
+    },
+    "hverir": {
+      "file": "assets/poi/hverir.jpg",
+      "zh": "Hverir 地热区",
+      "local": "Hverir",
+      "title": "Hverir Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Hverir%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Iceland_Hverir_at_M%C3%BDvatn_%28with_people%29.jpg/250px-Iceland_Hverir_at_M%C3%BDvatn_%28with_people%29.jpg"
+    },
+    "grjotagja": {
+      "file": "assets/poi/grjotagja.jpg",
+      "zh": "Grjotagja 岩洞温泉",
+      "local": "Grjotagja",
+      "title": "Grjótagjá",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Grj%C3%B3tagj%C3%A1&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Grjotagja_cave_Iceland_1.JPG/250px-Grjotagja_cave_Iceland_1.JPG"
+    },
+    "myvatn": {
+      "file": "assets/poi/myvatn.jpg",
+      "zh": "米湖天然浴场",
+      "local": "Myvatn Nature Baths",
+      "title": "Mývatn Nature Baths Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=M%C3%BDvatn%20Nature%20Baths%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Myvatn_Nature_Baths_by_Bruce_McAdam.jpg/330px-Myvatn_Nature_Baths_by_Bruce_McAdam.jpg"
+    },
+    "husavik": {
+      "file": "assets/poi/husavik.jpg",
+      "zh": "胡萨维克",
+      "local": "Husavik",
+      "title": "Húsavík Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=H%C3%BAsav%C3%ADk%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Husavik_Iceland_2005_1.JPG/250px-Husavik_Iceland_2005_1.JPG"
+    },
+    "glaumbaer": {
+      "file": "assets/poi/glaumbaer.jpg",
+      "zh": "Glaumbaer 草皮农庄",
+      "local": "Glaumbaer",
+      "title": "Glaumbær turf farm",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Glaumb%C3%A6r%20turf%20farm&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/LC_PeatWall.JPG/250px-LC_PeatWall.JPG"
+    },
+    "holmavik": {
+      "file": "assets/poi/holmavik.jpg",
+      "zh": "侯尔马维克",
+      "local": "Holmavik",
+      "title": "Hólmavík Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=H%C3%B3lmav%C3%ADk%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Holmavik0.jpg/250px-Holmavik0.jpg"
+    },
+    "isafjordur": {
+      "file": "assets/poi/isafjordur.jpg",
+      "zh": "伊萨菲厄泽",
+      "local": "Isafjordur",
+      "title": "Ísafjörður Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=%C3%8Dsafj%C3%B6r%C3%B0ur%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/%C3%8Dsafj%C3%B6r%C3%B0ur%2C_Iceland_-_panoramio_%281%29.jpg/250px-%C3%8Dsafj%C3%B6r%C3%B0ur%2C_Iceland_-_panoramio_%281%29.jpg"
+    },
+    "stykk": {
+      "file": "assets/poi/stykk.jpg",
+      "zh": "斯蒂基斯霍尔米",
+      "local": "Stykkisholmur",
+      "title": "Stykkishólmur Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Stykkish%C3%B3lmur%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Stykkish%C3%B3lmur%2C_Iceland_-_panoramio_%284%29.jpg/250px-Stykkish%C3%B3lmur%2C_Iceland_-_panoramio_%284%29.jpg"
+    },
+    "arnarstapi": {
+      "file": "assets/poi/arnarstapi.jpg",
+      "zh": "阿尔纳斯塔皮海岸",
+      "local": "Arnarstapi",
+      "title": "Arnarstapi Iceland",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Arnarstapi%20Iceland&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Seagulls%27_nests%2C_Arnarstapi%2C_Iceland%2C_20230505_1154_5120.jpg/250px-Seagulls%27_nests%2C_Arnarstapi%2C_Iceland%2C_20230505_1154_5120.jpg"
+    },
+    "ytritunga": {
+      "file": "assets/poi/ytritunga.jpg",
+      "zh": "Ytri Tunga 海豹滩",
+      "local": "Ytri Tunga",
+      "title": "Ytri Tunga seals",
+      "page": "https://commons.wikimedia.org/w/index.php?search=Ytri%20Tunga%20seals&title=Special:MediaSearch&type=image",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Seal_in_the_Gardur_area_-_Iceland_-_panoramio.jpg/250px-Seal_in_the_Gardur_area_-_Iceland_-_panoramio.jpg"
+    },
+    "seljalandsfoss": {
+      "file": "assets/poi/seljalandsfoss.jpg",
+      "zh": "塞里雅兰瀑布",
+      "local": "Seljalandsfoss",
+      "title": "Seljalandsfoss, Suðurland, Islandia, 2014-08-16, DD 201-203 HDR.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Seljalandsfoss,_Su%C3%B0urland,_Islandia,_2014-08-16,_DD_201-203_HDR.JPG",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Seljalandsfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_201-203_HDR.JPG/960px-Seljalandsfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_201-203_HDR.JPG"
+    },
+    "svartifoss": {
+      "file": "assets/poi/svartifoss.jpg",
+      "zh": "黑瀑布",
+      "local": "Svartifoss",
+      "title": "SvartifossWinter.jpg",
+      "page": "https://en.wikipedia.org/wiki/Svartifoss",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/SvartifossWinter.jpg/960px-SvartifossWinter.jpg"
+    },
+    "godafoss": {
+      "file": "assets/poi/godafoss.jpg",
+      "zh": "众神瀑布",
+      "local": "Goðafoss",
+      "title": "1 Goðafoss aerial pano 2017.jpg",
+      "page": "https://en.wikipedia.org/wiki/Go%C3%B0afoss",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/1_Go%C3%B0afoss_aerial_pano_2017.jpg/960px-1_Go%C3%B0afoss_aerial_pano_2017.jpg"
+    },
+    "dimmu": {
+      "file": "assets/poi/dimmu.jpg",
+      "zh": "黑色城堡",
+      "local": "Dimmuborgir",
+      "title": "Dimmuborgir-stígur.jpg",
+      "page": "https://en.wikipedia.org/wiki/Dimmuborgir",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Dimmuborgir-st%C3%ADgur.jpg/960px-Dimmuborgir-st%C3%ADgur.jpg"
+    },
+    "blue": {
+      "file": "assets/poi/blue.jpg",
+      "zh": "蓝湖温泉",
+      "local": "Blue Lagoon",
+      "title": "Blue Lagoon Main Building.JPG",
+      "page": "https://en.wikipedia.org/wiki/Blue_Lagoon_(geothermal_spa)",
+      "source": "https://upload.wikimedia.org/wikipedia/en/thumb/0/00/Blue_Lagoon_Main_Building.JPG/960px-Blue_Lagoon_Main_Building.JPG"
+    },
+    "budir": {
+      "file": "assets/poi/budir.jpg",
+      "zh": "布迪尔黑教堂",
+      "local": "Búðir",
+      "title": "Búðir 2024 (0748).jpg",
+      "page": "https://en.wikipedia.org/wiki/B%C3%BA%C3%B0ir",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/B%C3%BA%C3%B0ir_2024_%280748%29.jpg/960px-B%C3%BA%C3%B0ir_2024_%280748%29.jpg"
+    },
+    "blondous": {
+      "file": "assets/poi/blondous.jpg",
+      "zh": "布伦迪欧斯",
+      "local": "Blönduós",
+      "title": "Blönduós (0884).jpg",
+      "page": "https://en.wikipedia.org/wiki/Bl%C3%B6ndu%C3%B3s",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Bl%C3%B6ndu%C3%B3s_%280884%29.jpg/960px-Bl%C3%B6ndu%C3%B3s_%280884%29.jpg"
+    },
+    "diamond": {
+      "file": "assets/poi/diamond.jpg",
+      "zh": "钻石沙滩 / Breidamerkursandur",
+      "local": "Diamond Beach",
+      "title": "Black sand beach near Jökulsárlón bay.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Black_sand_beach_near_J%C3%B6kuls%C3%A1rl%C3%B3n_bay.jpg",
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Black%20sand%20beach%20near%20J%C3%B6kuls%C3%A1rl%C3%B3n%20bay.jpg?width=960"
+    },
+    "sigoldu": {
+      "file": "assets/poi/sigoldu.jpg",
+      "zh": "西戈尔杜峡谷",
+      "local": "Sigöldugljúfur",
+      "title": "View of Sigöldugljúfur and canyon.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:View_of_Sig%C3%B6lduglj%C3%BAfur_and_canyon.jpg",
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/View%20of%20Sig%C3%B6lduglj%C3%BAfur%20and%20canyon.jpg?width=960"
+    },
+    "vestrahorn": {
+      "file": "assets/poi/vestrahorn.jpg",
+      "zh": "蝙蝠山 / Vestrahorn",
+      "local": "Vestrahorn",
+      "title": "Vestrahorn and Stokksnes beach in Iceland.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Vestrahorn_and_Stokksnes_beach_in_Iceland.jpg",
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Vestrahorn%20and%20Stokksnes%20beach%20in%20Iceland.jpg?width=960"
+    },
+    "petra": {
+      "file": "assets/poi/petra.jpg",
+      "zh": "Petra 石头收藏馆",
+      "local": "Petra's Stone Collection",
+      "title": "SteinaSafnPetru.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:SteinaSafnPetru.jpg",
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/SteinaSafnPetru.jpg?width=960"
+    },
+    "drangsnes": {
+      "file": "assets/poi/drangsnes.jpg",
+      "zh": "Drangsnes",
+      "local": "Drangsnes",
+      "title": "Hottubs-Drangsnes.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Hottubs-Drangsnes.JPG",
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Hottubs-Drangsnes.JPG?width=960"
+    },
+    "ferry": {
+      "file": "assets/poi/ferry.jpg",
+      "zh": "Baldur 渡轮",
+      "local": "Baldur ferry",
+      "title": "Baldur, Seatour Ferry, Stykkishomur, Iceland (48751504122).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Baldur,_Seatour_Ferry,_Stykkishomur,_Iceland_(48751504122).jpg",
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Baldur%2C%20Seatour%20Ferry%2C%20Stykkishomur%2C%20Iceland%20%2848751504122%29.jpg?width=960"
+    },
+    "hella": {
+      "file": "assets/poi/hella.jpg",
+      "zh": "海德拉 / Hella",
+      "local": "Hella",
+      "title": "Town of Hella.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Town_of_Hella.jpg",
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Town%20of%20Hella.jpg?width=960"
+    }
+  }
+}

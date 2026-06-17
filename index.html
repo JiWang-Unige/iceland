@@ -116,6 +116,10 @@ h3{font-family:var(--serif);font-size:23px;margin:0 0 12px}
 	.route-preview{width:100%;height:100%;display:block;background:#e8f4f8}
 	.stop{display:grid;grid-template-columns:34px minmax(0,1fr);gap:11px;padding:12px;border:1px solid #e3e9e9;border-radius:10px;background:#fbfcfb}
 .stop-card{display:grid;grid-template-columns:1fr;gap:12px}
+.stop-card.has-photo{grid-template-columns:168px minmax(0,1fr)}
+.photo{height:132px;border-radius:8px;overflow:hidden;background:#e8f4f8;border:1px solid #d8e4e4;display:block}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .18s ease}
+.photo:hover img{transform:scale(1.035)}
 	.lp-note{margin-top:8px;padding:10px 11px;border-radius:8px;background:#fff7df;border:1px solid #f0dea6;color:#594516;font-size:13.2px}
 .stop.no-match{display:none}
 .stop-num{width:28px;height:28px;border-radius:50%;background:#e7f2f3;color:#1c697c;font-family:var(--mono);font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;margin-top:2px}
@@ -145,7 +149,6 @@ tr:last-child td{border-bottom:0}
 	.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 .check-card label{display:flex;gap:8px;padding:6px 0;color:#40545b;font-size:13.5px}
 .check-card input{accent-color:#2d7d93}
-.sources li{margin:7px 0;color:#475b62}
 footer{background:var(--night);color:#9fb8bf;margin-top:54px;padding:34px 0;font-size:13px}
 footer b{color:#f0fbfd}
 .toast{position:fixed;right:18px;bottom:18px;z-index:200;background:var(--basalt);color:#fff;border-radius:9px;padding:10px 12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.2s}
@@ -176,6 +179,8 @@ footer b{color:#f0fbfd}
 	  .day-side{position:static}
 	  .day-card{grid-template-columns:1fr}
   .stop-card{grid-template-columns:1fr}
+  .stop-card.has-photo{grid-template-columns:1fr}
+  .photo{height:170px}
   .date-rail{flex-direction:row;align-items:center;justify-content:space-between}
   .day-head{grid-template-columns:1fr}
 	  #map{height:440px}
@@ -199,7 +204,7 @@ footer b{color:#f0fbfd}
     <div>
       <div class="brandline"><span>Iceland ring road</span><span>2026.07.18-07.28</span><span>2 cars / flexible split</span></div>
       <h1>冰岛环岛自驾规划书</h1>
-      <p class="hero-copy">初版：用来路上快速查路线、停车、住宿、预订和行李。每个地点都保留中文和当地名；大家点开地图、每日卡片或导航按钮就能直接做导航啦 Google Maps。</p>
+      <p class="hero-copy">初版：用来路上快速查路线、停车、住宿、预订和行李。每个地点都保留中文和当地名；大家点开地图、每日卡片或导航按钮就能直接导航啦</p>
       <div class="hero-actions">
         <a class="btn" href="#route">查看交互地图</a>
         <a class="btn line" href="#days">展开每日路线</a>
@@ -243,7 +248,7 @@ footer b{color:#f0fbfd}
         <div>
           <div class="eyebrow">Trip brief</div>
           <h2>最终环岛规划总览</h2>
-          <p class="lede">需要和大家讨论的内容：航班衔接、一些细节路线、活动预订、行李和歌单都集中在这里。</p>
+          <p class="lede">集合、交通、租车、活动预订、行李和歌单都集中在这里，大家按这个页面执行和查阅。</p>
         </div>
         <div class="tools">
           <button class="tool-btn" id="copySummary" type="button">复制行程摘要</button>
@@ -260,25 +265,31 @@ footer b{color:#f0fbfd}
         <article class="card">
           <span class="pill warn">路线</span>
           <h3>逆时针环岛 + 西峡湾</h3>
-          <p>主线为 Reykjavík -> Hella -> Vík -> Höfn -> Egilsstaðir -> Mývatn/Húsavík/Akureyri -> Westfjords -> Snæfellsnes -> Reykjavík。目前想法是7月24日给观鲸单独留一天，7月25日坐长途车。</p>
-          <p class="note">西峡湾两天路程较长。需要具体商议关于住宿和渡轮时间。</p>
+          <p>主线为 Reykjavík -> Hella -> Vík -> Höfn -> Egilsstaðir -> Mývatn/Húsavík/Akureyri -> Westfjords -> Snæfellsnes -> Reykjavík。7月24日给 Húsavík 观鲸单独留出缓冲，7月25日作为北部到西峡湾的长途转场日。</p>
+          <p class="note">西峡湾两天路程较长，住宿和 Baldur 渡轮按预订结果锁定最终时刻。</p>
+        </article>
+        <article class="card">
+          <span class="pill good">租车</span>
+          <h3>7人：一辆7座车优先（目前为7人，3司机）</h3>
+          <p>目前按 <b>7人同行</b> 判断，主方案是一辆7座车，并登记 <b>3名驾驶员</b>。考虑后备箱空间、行李空间、碎石险/砂石险、第二/第三驾驶员费用和押金规则。</p>
+          <p class="note">保留原方案作为备选：2辆车，如果行李放不下、或中途能再叫到人。</p>
         </article>
         <article class="card">
           <span class="pill hot">渡轮</span>
           <h3>Brjánslækur -> Stykkishólmur</h3>
           <p>7月26日按 Baldur ferry 的 Brjánslækur -> Stykkishólmur 带车渡轮准备。常见班次模式里有 <b>12:00 / 18:00</b> 方向船，实际出票前以 ferja.is 为准。</p>
-          <p class="note">带车上船至少提前45-60分钟到港。不坐渡轮时，改走陆路（比坐船多1h），具体时间当天用 Google Maps 再确认。坐船大概人均60瑞左右</p>
+          <p class="note">带车上船至少提前45-60分钟到港。不坐渡轮时，改走陆路（比坐船多1h，总3.5h开到同一个城市），具体时间当天用 Google Maps 再确认。坐船大概人均60瑞左右</p>
         </article>
         <article class="card">
           <span class="pill good">歌单</span>
           <h3>Spotify 添加共享歌单</h3>
-          <p>大家把适合自驾、一起开车听、自己喜欢的歌加到 Spotify 共享歌单里，让十天车程更轻松。</p>
-          <p class="note">歌单按主题整理</p>
+          <p>五个 Spotify 共享歌单已经建好，大家按车内状态添加，变成我们永恒的冰岛歌单。</p>
+          <p class="note">可以带一台备用机专门放歌。</p>
         </article>
         <article class="card">
           <span class="pill warn">现场原则</span>
           <h3>高地 / 观鲸 / 西峡湾</h3>
-          <p>Landmannalaugar 前一晚看 road.is / umferdin.is；F 路、车型或天气不合适就走南岸备案。Húsavík 观鲸优先上午班。西峡湾按体力取舍。</p>
+          <p>Landmannalaugar 前一晚看 road.is / umferdin.is；F 路、车型或天气不合适就走南岸备案。Húsavík 观鲸优先上午。西峡湾按体力取舍。</p>
           <p class="note">每天早晚看天气、道路和黑沙滩警示灯，现场安全优先。</p>
         </article>
       </div>
@@ -290,8 +301,8 @@ footer b{color:#f0fbfd}
       <div class="section-head">
         <div>
           <div class="eyebrow">Map cockpit</div>
-          <h2>地图驾驶台</h2>
-          <p class="lede">点击日期会有当天线路。地图点直接标注好了中文名和当地名称，鼠标点击有导航、停车点、购票入口和小红书照片跳转（仅支持电脑）。</p>
+          <h2>地图一览表</h2>
+          <p class="lede">全览了解完整环岛路线，点日期可以切当天线路。地图点标注了中文名和当地名称，点击有导航、停车点、购票入口和小红书照片跳转。具体更详细的看每日行程，更灵活</p>
         </div>
         <div class="tools">
           <button class="tool-btn active" data-lang="all" type="button">中文 + 当地名</button>
@@ -354,9 +365,8 @@ footer b{color:#f0fbfd}
         <div>
           <div class="eyebrow">Road music</div>
           <h2>共享歌单与每日氛围</h2>
-          <p class="lede">Spotify 建 4 个共享歌单，大家按开车状态直接往里面加歌。</p>
+          <p class="lede">按状态分成 5 个共享歌单</p>
         </div>
-        <div class="tools"><button class="tool-btn" id="copyPlaylistPrompt" type="button">复制加歌说明</button></div>
       </div>
       <div class="playlist-grid" id="playlistGrid"></div>
     </div>
@@ -368,19 +378,10 @@ footer b{color:#f0fbfd}
         <div>
           <div class="eyebrow">Open slots</div>
           <h2>出发前检查</h2>
-          <p class="lede">出发前把住宿链接、航班号、租车订单、歌单链接和最终费用表补齐。页面里的价格、道路和船班以付款前官方页面为准。</p>
+          <p class="lede">出发前逐项确认住宿、航班、租车订单、活动预订、离线地图和费用表补齐。</p>
         </div>
       </div>
       <div class="checklist" id="checklist"></div>
-      <div class="panel" style="margin-top:16px">
-        <h3>核验来源</h3>
-        <ul class="sources">
-          <li>EasyJet 航线与低价日历：LYS - KEF / KEF - LYS 出票前复查。</li>
-          <li>Baldur ferry：Brjánslækur - Stykkishólmur 带车位需提前订。</li>
-          <li>umferdin.is / road.is：高地 F 路和普通道路状态。</li>
-          <li>Safetravel：Reynisfjara 黑沙滩警示灯和天气安全。</li>
-        </ul>
-      </div>
     </div>
   </section>
 </main>
@@ -397,7 +398,7 @@ footer b{color:#f0fbfd}
 <script>
 const CONFIG = {
   start: "2026-07-18",
-  outbound: "7/18 Geneva -> Lyon by FlixBus/train, then easyJet LYS -> KEF，抵达约19:00",
+  outbound: "7/18 Geneva -> Lyon by FlixBus/train, then easyJet LYS 16:45 -> KEF，抵达约19:00",
   inbound: "7/28 KEF 18:00 -> LYS 23:50，easyJet 参考 CHF 124；Lyon 过夜待定"
 };
 
@@ -570,21 +571,21 @@ Object.assign(POIS, {
 });
 
 const DAYS = [
-  {d:"D0",date:"7/18",title:"抵达雷克雅未克",stay:"雷克雅未克",km:55,drive:"约1h",spots:["kef","reykjavik"],route:"KEF -> Reykjavik",food:"机场简餐 / 雷市超市补给",music:"松",alt:"如果航班晚点，租车手续和晚餐全部降级为机场/住处附近。"},
-  {d:"D1",date:"7/19",title:"黄金圈 -> Hella",stay:"Hella",km:280,drive:"约4h",spots:["reykjavik","thingvellir","geysir","gullfoss","bruarfoss","kerid","hella"],route:"Reykjavik -> Thingvellir -> Geysir -> Gullfoss -> Bruarfoss/Kerid -> Hella",food:"Geysir/Friðheimar 方向午餐，Hella 晚餐",music:"景",alt:"Brúarfoss 和 Kerid 二选一；如果租车提车慢，直接少停一个点。"},
-  {d:"D2",date:"7/20",title:"兰德曼纳高地 -> Vík",stay:"Vík",km:330,drive:"约6h+",spots:["hella","sigoldu","landmannalaugar","seljalandsfoss","skogafoss","dc3","vik"],route:"Hella -> Sigoldugljufur -> Landmannalaugar -> Seljalandsfoss -> Skogafoss -> DC-3 -> Vik",food:"高地路餐/三明治，Vik 晚餐",music:"醒 / 景",alt:"F路关闭或风雨大：取消高地，改南岸慢玩；DC-3 和瀑布按体力删减。"},
-  {d:"D3",date:"7/21",title:"黑沙滩 + 冰川王国 -> Höfn",stay:"Höfn",km:310,drive:"约4.3h + 徒步",spots:["vik","dyrholaey","reynisfjara","fjadra","skaftafell","svartifoss","fjallsarlon","jokulsarlon","diamond","hofn"],route:"Vik -> Dyrholaey -> Reynisfjara -> Fjadrargljufur -> Skaftafell/Svartifoss -> Fjallsarlon -> Jokulsarlon/Diamond Beach -> Hofn",food:"Skaftafell 路餐，Hofn 龙虾汤/海鲜",music:"景",alt:"Svartifoss 2小时线为默认；5小时线给想多徒步的人。累的人可先开去 Hofn 入住。"},
-  {d:"D4",date:"7/22",title:"东峡湾 -> Egilsstaðir",stay:"Egilsstaðir",km:310,drive:"约4.5h",spots:["hofn","vestrahorn","hvalnes","djupivogur","petra","egils","seydis"],route:"Hofn -> Vestrahorn -> Hvalnes -> Djupivogur -> Petra -> Egilsstadir -> Seydisfjordur optional",food:"Djupivogur 午餐/咖啡，Egilsstadir 或 Seydisfjordur 晚餐",music:"景",alt:"山口起雾或晚到，不去 Seydisfjordur。"},
-  {d:"D5",date:"7/23",title:"Stuðlagil + Dettifoss + 米湖",stay:"Mývatn / Húsavík / Akureyri",km:330,drive:"约4.7h",spots:["egils","studlagil","dettifoss","hverir","grjotagja","dimmu","myvatn"],route:"Egilsstadir -> Studlagil -> Dettifoss -> Hverir -> Grjotagja -> Dimmuborgir -> Myvatn Nature Baths",food:"Egilsstadir 早餐，Vogafjos/米湖晚餐",music:"醒",alt:"Stuðlagil 东岸徒步4km视角好；西岸停车即看。米湖住宿难订，三地都可接受。"},
-  {d:"D6",date:"7/24",title:"Húsavík 观鲸 + 北部缓冲",stay:"Akureyri / Húsavík",km:180,drive:"约2.5-3h",spots:["myvatn","husavik","godafoss","akureyri"],route:"Myvatn/Akureyri -> Husavik whale watching -> Godafoss -> Akureyri",food:"Husavik 港口简餐，Akureyri 晚餐",music:"松",alt:"观鲸取消：鲸鱼博物馆 + GeoSea 或多玩 Godafoss/Akureyri。不要把西峡湾长途转场塞到同一天。"},
-  {d:"D7",date:"7/25",title:"北部转场 -> 西峡湾入口",stay:"Hólmavík / Ísafjörður",km:360,drive:"约4.8h+",spots:["akureyri","glaumbaer","blondous","hvitserkur","drangsnes","holmavik","isafjordur","hornstrandir"],route:"Akureyri -> Glaumbaer -> Blonduos -> Hvitserkur -> Drangsnes -> Holmavik / Isafjordur",food:"路餐为主，Holmavik/Isafjordur 晚餐",music:"唱 / 醒",alt:"Hornstrandir 不是顺路自驾点，只有订到船班且时间充足才执行；否则删除。"},
-  {d:"D8",date:"7/26",title:"西峡湾 + Baldur 渡轮",stay:"Stykkishólmur",km:300,drive:"约4.5h + ferry",spots:["holmavik","isafjordur","dynjandi","latrabjarg","ferry","stykk"],route:"Holmavik/Isafjordur -> Dynjandi -> Latrabjarg -> Brjanslaekur ferry -> Stykkisholmur",food:"西峡湾路餐，Stykkisholmur 晚餐",music:"景",alt:"按 ferja.is 班次倒推。若赶18:00船，17:00-17:15到港；赶不上则改陆路或改住处。"},
-  {d:"D9",date:"7/27",title:"斯奈山半岛 -> Reykjavík",stay:"Reykjavík",km:310,drive:"约4.5h",spots:["stykk","kirkjufell","arnarstapi","budir","ytritunga","reykjavik"],route:"Stykkisholmur -> Kirkjufell -> Arnarstapi -> Budakirkja -> Ytri Tunga -> Reykjavik",food:"Arnarstapi 鱼汤/路餐，雷市收官餐",music:"唱",alt:"如果前一天比较累，今天只保 Kirkjufell + Reykjavik。"},
-  {d:"D10",date:"7/28",title:"雷市半日 + 还车 + 返回 Lyon",stay:"Lyon 待定",km:60,drive:"约1h",spots:["reykjavik","sky","blue","kef"],route:"Reykjavik -> Sky Lagoon or Blue Lagoon -> KEF",food:"雷市早午餐，机场晚餐",music:"松 / 唱",alt:"如果19号早上租车，28号早上还车可避免多计一天；是否保车到机场取决于租车计费。"}
+  {d:"D0",date:"7/18",title:"抵达雷克雅未克",stay:"雷克雅未克",km:55,drive:"约1h",spots:["kef","reykjavik"],route:"KEF -> Reykjavik",food:"机场简餐 / 雷市超市补给",music:"沿途拾音",alt:"如果航班晚点，租车手续和晚餐全部降级为机场/住处附近。"},
+  {d:"D1",date:"7/19",title:"黄金圈 -> Hella",stay:"Hella",km:280,drive:"约4h",spots:["reykjavik","thingvellir","geysir","gullfoss","bruarfoss","kerid","hella"],route:"Reykjavik -> Thingvellir -> Geysir -> Gullfoss -> Bruarfoss/Kerid -> Hella",food:"Geysir/Friðheimar 方向午餐，Hella 晚餐",music:"孤独星球",alt:"Brúarfoss 和 Kerid 二选一；如果租车提车慢，直接少停一个点。"},
+  {d:"D2",date:"7/20",title:"兰德曼纳高地 -> Vík",stay:"Vík",km:330,drive:"约6h+",spots:["hella","sigoldu","landmannalaugar","seljalandsfoss","skogafoss","dc3","vik"],route:"Hella -> Sigoldugljufur -> Landmannalaugar -> Seljalandsfoss -> Skogafoss -> DC-3 -> Vik",food:"高地路餐/三明治，Vik 晚餐",music:"一号公路 / 孤独星球",alt:"F路关闭或风雨大：取消高地，改南岸慢玩；DC-3 和瀑布按体力删减。"},
+  {d:"D3",date:"7/21",title:"黑沙滩 + 冰川王国 -> Höfn",stay:"Höfn",km:310,drive:"约4.3h + 徒步",spots:["vik","dyrholaey","reynisfjara","fjadra","skaftafell","svartifoss","fjallsarlon","jokulsarlon","diamond","hofn"],route:"Vik -> Dyrholaey -> Reynisfjara -> Fjadrargljufur -> Skaftafell/Svartifoss -> Fjallsarlon -> Jokulsarlon/Diamond Beach -> Hofn",food:"Skaftafell 路餐，Hofn 龙虾汤/海鲜",music:"孤独星球 / 夏日极光",alt:"Svartifoss 2小时线为默认；5小时线给想多徒步的人。累的人可先开去 Hofn 入住。"},
+  {d:"D4",date:"7/22",title:"东峡湾 -> Egilsstaðir",stay:"Egilsstaðir",km:310,drive:"约4.5h",spots:["hofn","vestrahorn","hvalnes","djupivogur","petra","egils","seydis"],route:"Hofn -> Vestrahorn -> Hvalnes -> Djupivogur -> Petra -> Egilsstadir -> Seydisfjordur optional",food:"Djupivogur 午餐/咖啡，Egilsstadir 或 Seydisfjordur 晚餐",music:"孤独星球",alt:"山口起雾或晚到，不去 Seydisfjordur。"},
+  {d:"D5",date:"7/23",title:"Stuðlagil + Dettifoss + 米湖",stay:"Mývatn / Húsavík / Akureyri",km:330,drive:"约4.7h",spots:["egils","studlagil","dettifoss","hverir","grjotagja","dimmu","myvatn"],route:"Egilsstadir -> Studlagil -> Dettifoss -> Hverir -> Grjotagja -> Dimmuborgir -> Myvatn Nature Baths",food:"Egilsstadir 早餐，Vogafjos/米湖晚餐",music:"一号公路",alt:"Stuðlagil 东岸徒步4km视角好；西岸停车即看。米湖住宿难订，三地都可接受。"},
+  {d:"D6",date:"7/24",title:"Húsavík 观鲸 + 北部缓冲",stay:"Akureyri / Húsavík",km:180,drive:"约2.5-3h",spots:["myvatn","husavik","godafoss","akureyri"],route:"Myvatn/Akureyri -> Husavik whale watching -> Godafoss -> Akureyri",food:"Husavik 港口简餐，Akureyri 晚餐",music:"沿途拾音 / 深夜篝火",alt:"观鲸取消：鲸鱼博物馆 + GeoSea 或多玩 Godafoss/Akureyri。不要把西峡湾长途转场塞到同一天。"},
+  {d:"D7",date:"7/25",title:"北部转场 -> 西峡湾入口",stay:"Hólmavík / Ísafjörður",km:360,drive:"约4.8h+",spots:["akureyri","glaumbaer","blondous","hvitserkur","drangsnes","holmavik","isafjordur","hornstrandir"],route:"Akureyri -> Glaumbaer -> Blonduos -> Hvitserkur -> Drangsnes -> Holmavik / Isafjordur",food:"路餐为主，Holmavik/Isafjordur 晚餐",music:"深夜篝火 / 一号公路",alt:"Hornstrandir 不是顺路自驾点，只有订到船班且时间充足才执行；否则删除。"},
+  {d:"D8",date:"7/26",title:"西峡湾 + Baldur 渡轮",stay:"Stykkishólmur",km:300,drive:"约4.5h + ferry",spots:["holmavik","isafjordur","dynjandi","latrabjarg","ferry","stykk"],route:"Holmavik/Isafjordur -> Dynjandi -> Latrabjarg -> Brjanslaekur ferry -> Stykkisholmur",food:"西峡湾路餐，Stykkisholmur 晚餐",music:"夏日极光 / 孤独星球",alt:"按 ferja.is 班次倒推。若赶18:00船，17:00-17:15到港；赶不上则改陆路或改住处。"},
+  {d:"D9",date:"7/27",title:"斯奈山半岛 -> Reykjavík",stay:"Reykjavík",km:310,drive:"约4.5h",spots:["stykk","kirkjufell","arnarstapi","budir","ytritunga","reykjavik"],route:"Stykkisholmur -> Kirkjufell -> Arnarstapi -> Budakirkja -> Ytri Tunga -> Reykjavik",food:"Arnarstapi 鱼汤/路餐，雷市收官餐",music:"深夜篝火",alt:"如果前一天比较累，今天只保 Kirkjufell + Reykjavik。"},
+  {d:"D10",date:"7/28",title:"雷市半日 + 还车 + 返回 Lyon",stay:"Lyon 待定",km:60,drive:"约1h",spots:["reykjavik","sky","blue","kef"],route:"Reykjavik -> Sky Lagoon or Blue Lagoon -> KEF",food:"雷市早午餐，机场晚餐",music:"深夜篝火 / 沿途拾音",alt:"如果19号早上租车，28号早上还车可避免多计一天；是否保车到机场取决于租车计费。"}
 ];
 
 const BOOKINGS = [
-  ["租车", "现在", "2辆4x4 + GP/SAAP/碎石险优先", "高地和碎石路多，驾驶员信用卡/押金要提前确认。", [["Blue Car","https://www.bluecarrental.is/"],["Lotus","https://www.lotuscarrental.is/"],["Zero Car","https://www.zerocar.is/"]]],
+  ["租车", "现在", "主方案：1辆7座车 + 登记3名驾驶员", "按目前7人同行判断。我们带的行李也需要考虑后备箱空间、第二/第三驾驶员费用、押金和 GP/SAAP/碎石险；保留备选：2辆车。", [["Blue Car","https://www.bluecarrental.is/"],["Lotus","https://www.lotuscarrental.is/"],["Zero Car","https://www.zerocar.is/"]]],
   ["住宿", "现在", "Vík / Höfn / Mývatn / Westfjords 最紧", "优先可取消；米湖订不到就 Húsavík 或 Akureyri。", [["Booking","https://www.booking.com/searchresults.html?ss=Iceland"],["Airbnb","https://www.airbnb.com/s/Iceland/homes?adults=8"]]],
   ["Landmannalaugar", "前一晚", "F路开放 + 天气 + 车型", "不满足就执行南岸低地备案。", [["road.is","https://umferdin.is/en"],["SafeTravel","https://safetravel.is/conditions"]]],
   ["Húsavík 观鲸", "提前1-2周", "木船稳、快艇刺激", "优先上午班；看运营方风浪取消通知。", [["Gentle Giants","https://www.gentlegiants.is/"],["North Sailing","https://www.northsailing.is/"],["Húsavík Adventures","https://www.husavikadventures.is/"]]],
@@ -607,22 +608,106 @@ const LODGING = [
 ];
 
 const PLAYLISTS = [
-  ["松", "轻松开车", "落地、城市补给、短转场"],
-  ["景", "看风景", "瀑布、黑沙滩、峡湾和冰湖"],
-  ["醒", "提神开车", "长距离、高地、需要保持精神的路段"],
-  ["唱", "一起唱", "华语、J-pop、K-pop、大家熟的歌"]
+  [
+    `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C9 8 17 10 13.5 18.5C13.082 19.439 12.963 21 12 21C11.037 21 10.92 19.439 10.5 18.5C7 11 15 9 12 2Z" fill="#FF5722"/><path d="M8 16c0 2 2 4 4 4s4-2 4-4c0-2-2-4-4-4s-4 2-4 4z" fill="#FF9800"/></svg>`,
+    "深夜篝火",
+    "大家熟的歌，适合一起唱。",
+    "https://open.spotify.com/playlist/62X0PRyawa8ZHaogkRDCFM?si=029f202587044520&pt=dec2f9ea074b22ec9a92aea276774008"
+  ],
+  [
+    `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="13" width="20" height="5" rx="2" fill="#607D8B"/><rect x="5" y="8" width="14" height="6" rx="3" fill="#2196F3"/><circle cx="7" cy="19" r="2" fill="#333"/><circle cx="17" cy="19" r="2" fill="#333"/><rect x="16" y="11" width="3" height="2" rx="1" fill="#90CAF9"/></svg>`,
+    "一号公路",
+    "提神、烘氛围，提升能量。",
+    "https://open.spotify.com/playlist/3J7hQ3xoTkZ3mMXbLJMTBF?si=1c2cff236c494ca8&pt=67f06b646e4b0b58dd3514b486949c7c"
+  ],
+  [
+    `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#43A047"/><ellipse cx="12" cy="14" rx="7" ry="5" fill="#81C784"/><ellipse cx="12" cy="8" rx="5" ry="4" fill="#039BE5"/><ellipse cx="15" cy="15" rx="2" ry="1" fill="#0277BD" opacity="0.6"/></svg>`,
+    "孤独星球",
+    "适合夜路、下雨和睡觉",
+    "https://open.spotify.com/playlist/11atqITS823tenIN9KKnMc?si=2a80c7f8a00e4677&pt=47ed5724e74f7d3ffb2c0499f01e36dd"
+  ],
+  [
+    `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="2" fill="#90CAF9"/><polygon points="12,4 20,10 4,10" fill="#2196F3"/><rect x="9" y="15" width="6" height="5" fill="#fff"/></svg>`,
+    "夏日极光",
+    "适合冰川、海边和看风景",
+    "https://open.spotify.com/playlist/2gwZUrVGSF4mJnwHVIjU5d?si=c8a0fea8a5564f9a&pt=a5467a24fbfbcfa6f062e6820c7cf6e5"
+  ],
+  [
+    `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><g><rect width="24" height="24" fill="none"/><path d="M18 3v14.5a3.5 3.5 0 1 1-2-3.163V7h-6v10.5A3.5 3.5 0 1 1 8 14.5V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1z" fill="#4CAF50"/><circle cx="8.5" cy="19.5" r="1.5" fill="#81C784"/><circle cx="16.5" cy="19.5" r="1.5" fill="#A5D6A7"/></g><g><path d="M13 9v6.5a2.5 2.5 0 1 0 1-2V9h-1z" fill="#81C784"/></g><g><path d="M6 19a2.5 2.5 0 1 0 0 .01z" fill="none"/><path d="M12 9v9" stroke="#333" stroke-width="1.2" stroke-linecap="round"/></g><g><path d="M21 9h-3" stroke="#333" stroke-width="1.2" stroke-linecap="round"/><path d="M3 21l13-18" stroke="none"/></g><g><path d="M7 9a1 1 0 1 0 0-.01z" fill="#333"/></g><g><path d="M17 20c.89 0 1.7-.39 2.26-1.03A1.5 1.5 0 1 0 17 20z" fill="#A5D6A7"/></g></svg>`,
+    "沿途拾音",
+    "随便放先",
+    "https://open.spotify.com/playlist/1sEjVPG2QhWkueoQ3hACTi?si=0b430d5c304145b2&pt=252c367ae87512e330d5e8c0ddfd4800"
+  ]
 ];
+
+const PHOTO_MAP = {
+  akureyri: "assets/poi/akureyri.jpg",
+  arnarstapi: "assets/poi/arnarstapi.jpg",
+  blondous: "assets/poi/blondous.jpg",
+  blue: "assets/poi/blue.jpg",
+  bruarfoss: "assets/poi/bruarfoss.jpg",
+  budir: "assets/poi/budir.jpg",
+  dc3: "assets/poi/dc3.jpg",
+  dettifoss: "assets/poi/dettifoss.jpg",
+  diamond: "assets/poi/diamond.jpg",
+  dimmu: "assets/poi/dimmu.jpg",
+  djupivogur: "assets/poi/djupivogur.jpg",
+  drangsnes: "assets/poi/drangsnes.jpg",
+  dynjandi: "assets/poi/dynjandi.jpg",
+  dyrholaey: "assets/poi/dyrholaey.jpg",
+  egils: "assets/poi/egils.jpg",
+  fjadra: "assets/poi/fjadra.png",
+  fjallsarlon: "assets/poi/fjallsarlon.jpg",
+  ferry: "assets/poi/ferry.jpg",
+  geysir: "assets/poi/geysir.jpg",
+  glaumbaer: "assets/poi/glaumbaer.jpg",
+  godafoss: "assets/poi/godafoss.jpg",
+  grjotagja: "assets/poi/grjotagja.jpg",
+  gullfoss: "assets/poi/gullfoss.jpg",
+  hella: "assets/poi/hella.jpg",
+  hofn: "assets/poi/hofn.jpg",
+  holmavik: "assets/poi/holmavik.jpg",
+  hornstrandir: "assets/poi/hornstrandir.jpg",
+  husavik: "assets/poi/husavik.jpg",
+  hvalnes: "assets/poi/hvalnes.jpg",
+  hverir: "assets/poi/hverir.jpg",
+  hvitserkur: "assets/poi/hvitserkur.jpg",
+  isafjordur: "assets/poi/isafjordur.jpg",
+  jokulsarlon: "assets/poi/jokulsarlon.jpg",
+  kef: "assets/poi/kef.jpg",
+  kerid: "assets/poi/kerid.jpg",
+  kirkjufell: "assets/poi/kirkjufell.jpg",
+  landmannalaugar: "assets/poi/landmannalaugar.jpg",
+  latrabjarg: "assets/poi/latrabjarg.jpg",
+  myvatn: "assets/poi/myvatn.jpg",
+  petra: "assets/poi/petra.jpg",
+  reykjavik: "assets/poi/reykjavik.jpg",
+  reynisfjara: "assets/poi/reynisfjara.jpg",
+  seydis: "assets/poi/seydis.jpg",
+  seljalandsfoss: "assets/poi/seljalandsfoss.jpg",
+  sigoldu: "assets/poi/sigoldu.jpg",
+  skaftafell: "assets/poi/skaftafell.jpg",
+  skogafoss: "assets/poi/skogafoss.jpg",
+  sky: "assets/poi/sky.jpg",
+  studlagil: "assets/poi/studlagil.jpg",
+  svartifoss: "assets/poi/svartifoss.jpg",
+  stykk: "assets/poi/stykk.jpg",
+  thingvellir: "assets/poi/thingvellir.jpg",
+  vestrahorn: "assets/poi/vestrahorn.jpg",
+  vik: "assets/poi/vik.jpg",
+  ytritunga: "assets/poi/ytritunga.jpg"
+};
 
 const CHECKS = {
   "出发前72小时":["确认 easyJet / FlixBus / 火车时刻和行李额","确认租车取还车时间，避免多计一天","下载 Google Maps 离线地图","安装 112 Iceland / Parka / SafeTravel"],
   "推荐APP":["Google Maps 离线地图","112 Iceland","SafeTravel Iceland","Parka","Vedur / Icelandic Met Office","road.is / umferdin.is 网页收藏","Spotify 离线下载"],
   "道路与天气":["每天早晚看 umferdin.is/road.is","高地日不涉水冒险","黑沙滩看 Safetravel 警示灯","风速大于15m/s时重新评估开车和海边活动"],
   "装备":["防水冲锋衣裤","防水徒步鞋","泳衣和速干毛巾","眼罩耳塞","晕船药","车载多口USB-C充电器","2-3人拼一件托运行李"],
-  "补齐链接":["住宿订单链接","租车订单链接","观鲸订单链接","渡轮订单链接","Spotify歌单链接","Lyon过夜酒店"]
+  "需要完善":["住宿","租车","观鲸","渡轮","Spotify歌单","Lyon过夜酒店"]
 };
 
 const dayColor = ["#2d7d93","#6f8b55","#d8b44d","#c85f3d","#2f6f9f","#7c6f3d","#3d8268","#a96b45","#7a8590","#1f718a","#4c7b63"];
-let map, routeLayer, markerLayer, currentDay = 0, langMode = "all", dayMaps = {};
+let map, routeLayer, markerLayer, currentDay = -1, langMode = "all", dayMaps = {};
 
 const enc = encodeURIComponent;
 function placeUrl(q){ return q ? "https://www.google.com/maps/search/?api=1&query=" + enc(q) : "#"; }
@@ -639,6 +724,11 @@ function dirUrl(keys){
   const dest = navName(pts[pts.length-1]);
   const waypoints = pts.slice(1,-1).map(navName).join("|");
   return "https://www.google.com/maps/dir/?api=1&travelmode=driving&origin="+enc(origin)+"&destination="+enc(dest)+(waypoints ? "&waypoints="+enc(waypoints) : "");
+}
+function overviewKeys(){
+  const seen = [];
+  DAYS.forEach(d => d.spots.forEach(k => { if(POIS[k] && !seen.includes(k)) seen.push(k); }));
+  return seen;
 }
 function dateObj(offset){ const d = new Date(CONFIG.start+"T00:00:00Z"); d.setUTCDate(d.getUTCDate()+offset); return d; }
 function longDate(i){ const d = dateObj(i); return `${d.getUTCMonth()+1}月${d.getUTCDate()}日`; }
@@ -713,11 +803,24 @@ function renderHeroRows(){
 }
 
 function renderTabs(){
-  document.getElementById("dayTabs").innerHTML = DAYS.map((d,i)=>`<button class="${i===currentDay?"active":""}" data-day="${i}">${d.d} ${d.date}</button>`).join("");
+  document.getElementById("dayTabs").innerHTML = `<button class="${currentDay < 0 ? "active" : ""}" data-day="-1">全览</button>` + DAYS.map((d,i)=>`<button class="${i===currentDay?"active":""}" data-day="${i}">${d.d} ${d.date}</button>`).join("");
   document.querySelectorAll("[data-day]").forEach(btn => btn.onclick = () => { currentDay = +btn.dataset.day; renderActiveDay(); drawMap(); renderTabs(); });
 }
 
 function renderActiveDay(){
+  if(currentDay < 0){
+    document.getElementById("activeDay").innerHTML = `
+      <span class="pill">7月18日-7月28日 · 完整环岛</span>
+      <h3>全览地图</h3>
+      <p class="route">Reykjavík -> South Coast -> Eastfjords -> North -> Westfjords -> Snæfellsnes -> Reykjavík</p>
+      <div class="meta"><span class="pill warn">约2850 km</span><span class="pill">10晚</span><span class="pill good">先看全线，再点日期看当天</span></div>
+      <div class="route-tools">
+        <a href="#days">查看每日导航顺序</a>
+        <button type="button" onclick="copySummaryRoute()">复制全程摘要</button>
+      </div>
+      <div class="soft" style="margin-top:12px"><b>读图方式：</b>彩色线条是每天行车段，房子图标是住宿点；点 D0-D10 会切换到当天路线和当天导航。</div>`;
+    return;
+  }
   const d = DAYS[currentDay];
   document.getElementById("activeDay").innerHTML = `
     <span class="pill">${longDate(currentDay)} · ${d.stay}</span>
@@ -741,7 +844,9 @@ function markerIcon(p, idx){
 function initMap(){
   const el = document.getElementById("map");
   if(typeof L === "undefined"){
-    setRouteFallback(el, DAYS[currentDay].spots, DAYS[currentDay].title);
+    const keys = currentDay < 0 ? overviewKeys() : DAYS[currentDay].spots;
+    const title = currentDay < 0 ? "完整环岛路线" : DAYS[currentDay].title;
+    setRouteFallback(el, keys, title);
     return;
   }
   try{
@@ -752,16 +857,19 @@ function initMap(){
     markerLayer = L.layerGroup().addTo(map);
     drawMap();
   }catch(e){
-    setRouteFallback(el, DAYS[currentDay].spots, DAYS[currentDay].title);
+    const keys = currentDay < 0 ? overviewKeys() : DAYS[currentDay].spots;
+    const title = currentDay < 0 ? "完整环岛路线" : DAYS[currentDay].title;
+    setRouteFallback(el, keys, title);
   }
 }
 
 function drawMap(){
   if(!map) return;
   const el = document.getElementById("map");
-  const d = DAYS[currentDay];
+  const activeKeys = currentDay < 0 ? overviewKeys() : DAYS[currentDay].spots;
+  const activeTitle = currentDay < 0 ? "完整环岛路线" : DAYS[currentDay].title;
   if(el?.dataset.mapFallback){
-    setRouteFallback(el, d.spots, d.title);
+    setRouteFallback(el, activeKeys, activeTitle);
     return;
   }
   routeLayer.clearLayers();
@@ -769,21 +877,23 @@ function drawMap(){
   DAYS.forEach((d,i)=>{
     const coords = d.spots.map(k => POIS[k]?.c).filter(Boolean);
     if(coords.length > 1){
-      L.polyline(coords, {color: dayColor[i%dayColor.length], weight: i===currentDay ? 6 : 3, opacity: i===currentDay ? .95 : .32}).addTo(routeLayer);
+      const active = currentDay < 0 || i === currentDay;
+      L.polyline(coords, {color: dayColor[i%dayColor.length], weight: active ? 5 : 3, opacity: active ? .86 : .24}).addTo(routeLayer);
     }
   });
-  d.spots.forEach((k,i)=>{
+  const markerKeys = currentDay < 0 ? overviewKeys().filter(k => ["stay","airport","ferry"].includes(POIS[k]?.kind)) : DAYS[currentDay].spots;
+  markerKeys.forEach((k,i)=>{
     const p = POIS[k]; if(!p) return;
     const parkLink = p.parkingNav ? ` · <a href="${placeUrl(p.parkingNav)}" target="_blank">停车点</a>` : "";
     const ticketLink = p.ticket ? ` · <a href="${p.ticket}" target="_blank">购票/预约</a>` : "";
     const lp = lpText(p);
-    const pop = `<b>${p.zh}</b><br>${p.is}<br><span style="color:#52666d">${p.intro}</span>${lp ? `<div class="popup-lp">${lp}</div>` : ""}<br><a href="${placeUrl(navName(p))}" target="_blank">地点导航</a>${parkLink}${ticketLink} · <a href="${photosUrl(p)}" target="_blank">图片</a> · <a href="${xhsUrl(p)}" target="_blank">小红书</a> · <a href="${dirUrl(d.spots)}" target="_blank">当天路线</a>`;
+    const pop = `<b>${p.zh}</b><br>${p.is}<br><span style="color:#52666d">${p.intro}</span>${lp ? `<div class="popup-lp">${lp}</div>` : ""}<br><a href="${placeUrl(navName(p))}" target="_blank">地点导航</a>${parkLink}${ticketLink} · <a href="${photosUrl(p)}" target="_blank">图片</a> · <a href="${xhsUrl(p)}" target="_blank">小红书</a>${currentDay >= 0 ? ` · <a href="${dirUrl(DAYS[currentDay].spots)}" target="_blank">当天路线</a>` : ""}`;
     L.marker(p.c, {icon:markerIcon(p,i+1)}).bindPopup(pop).bindTooltip(mapLabel(p), {permanent:true, direction:"auto", className:"map-label", offset:[10,0]}).addTo(markerLayer);
   });
-  const bounds = L.latLngBounds(d.spots.map(k => POIS[k]?.c).filter(Boolean));
+  const bounds = L.latLngBounds(activeKeys.map(k => POIS[k]?.c).filter(Boolean));
   if(bounds.isValid()) map.fitBounds(bounds, {padding:[34,34]});
   setTimeout(()=>map.invalidateSize(),80);
-  ensureLeafletVisible(document.getElementById("map"), d.spots, d.title);
+  ensureLeafletVisible(document.getElementById("map"), activeKeys, activeTitle);
 }
 
 function renderDayMiniMap(i){
@@ -827,9 +937,11 @@ function stopHTML(k, idx){
   const fee = p.parkingNav ? `<div class="info-line"><b>费用：</b>${p.pay}</div>` : `<div class="info-line"><b>导航：</b>${navName(p)}</div>`;
   const ticket = p.ticket ? `<a target="_blank" href="${p.ticket}">购票/预约</a>` : "";
   const parkingLink = p.parkingNav ? `<a target="_blank" href="${placeUrl(p.parkingNav)}">停车点导航</a>` : "";
+  const photo = PHOTO_MAP[k] ? `<a class="photo" target="_blank" href="${photosUrl(p)}" title="打开 ${p.zh} 的 Google 照片"><img src="${PHOTO_MAP[k]}" alt="${p.zh}" loading="lazy"></a>` : "";
   return `<div class="stop" data-search="${[p.zh,p.is,p.no,p.nav,p.parkingNav,p.intro,p.lp].join(" ").toLowerCase()}">
     <div class="stop-num">${idx}</div>
-    <div class="stop-card">
+    <div class="stop-card ${photo ? "has-photo" : ""}">
+      ${photo}
       <div>
         <h4>${stopName(p)}</h4>
         <p>${p.intro}</p>
@@ -903,7 +1015,7 @@ function renderPlaylists(){
     <article class="card playlist-card">
       <h4><span class="playlist-letter">${p[0]}</span>${p[1]}</h4>
       <p>${p[2]}</p>
-      <input placeholder="Spotify 歌单链接">
+      <div class="links"><a target="_blank" href="${p[3]}">打开歌单</a></div>
     </article>`).join("");
 }
 
@@ -920,6 +1032,11 @@ function copyDay(i){
   const names = d.spots.map(k => POIS[k]?.zh + " / " + POIS[k]?.is).filter(Boolean).join(" -> ");
   navigator.clipboard?.writeText(`${d.date} ${d.title}\n${names}\n住宿：${d.stay}\n车程：${d.km}km，${d.drive}\n备案：${d.alt}\n导航：${dirUrl(d.spots)}`);
   toast("已复制当天路线");
+}
+function copySummaryRoute(){
+  const text = DAYS.map(d => `${d.date} ${d.title}: ${d.route} | 住宿 ${d.stay}`).join("\n");
+  navigator.clipboard?.writeText(`冰岛环岛全览 2026.07.18-07.28\n${text}`);
+  toast("已复制全程摘要");
 }
 
 function bindSearch(){
@@ -955,13 +1072,6 @@ function bindUI(){
     navigator.clipboard?.writeText(`冰岛环岛 2026.07.18-07.28\n${CONFIG.outbound}\n${CONFIG.inbound}\n\n${text}`);
     toast("已复制行程摘要");
   };
-  const playlistPrompt = document.getElementById("copyPlaylistPrompt");
-  if(playlistPrompt){
-    playlistPrompt.onclick = () => {
-      navigator.clipboard?.writeText("请大家把想在冰岛车上听的歌加到对应 Spotify 共享歌单里。我们按 4 类分：松=轻松开车，景=看风景，醒=提神开车，唱=一起唱。尽量选适合开车、不太吵、离线可下载的版本。");
-      toast("已复制加歌说明");
-    };
-  }
   document.querySelectorAll("[data-lang]").forEach(btn => btn.onclick = () => {
     langMode = btn.dataset.lang;
     document.querySelectorAll("[data-lang]").forEach(b => b.classList.toggle("active", b === btn));
