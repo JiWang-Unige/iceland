@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>冰岛环岛自驾规划书 · 2026.07.18-07.28</title>
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{
+  --paper:#f6f7f4; --ink:#17252b; --muted:#63757d; --line:#d8dfde; --card:#ffffff;
+  --basalt:#17252b; --ice:#dceff2; --fjord:#2d7d93; --moss:#6f8b55; --sulfur:#d8b44d; --lava:#c85f3d; --night:#0d181d;
+  --shadow:0 18px 48px rgba(23,37,43,.12);
+  --font:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --serif:"Noto Serif SC","Songti SC","STSong",Georgia,serif;
+  --mono:"SF Mono","JetBrains Mono","Cascadia Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.65}
+a{color:#226f86;text-decoration:none}
+a:hover{text-decoration:underline}
+button,input,textarea,select{font:inherit}
+button{border:0;cursor:pointer}
+.wrap{max-width:1320px;margin:0 auto;padding:0 22px}
+.hero{position:relative;min-height:92vh;color:#fff;background:
+  linear-gradient(180deg,rgba(13,24,29,.04),rgba(13,24,29,.74)),
+  url("https://iamiceland.com/wp-content/uploads/2023/01/kirkjufell-mountain-iceland-600x400.jpg") center/cover no-repeat;
+  overflow:hidden}
+.hero:before{content:"";position:absolute;inset:auto 0 0;height:42%;background:linear-gradient(180deg,rgba(246,247,244,0),var(--paper))}
+.hero .wrap{position:relative;z-index:1;padding-top:34px;padding-bottom:56px;display:grid;grid-template-columns:minmax(0,.95fr) minmax(420px,1.05fr);gap:34px;align-items:end;min-height:92vh}
+.brandline{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:#cfe8ec;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.brandline span{border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:5px 10px;background:rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+h1{font-family:var(--serif);font-size:clamp(38px,6vw,78px);line-height:1.05;margin:18px 0 14px;letter-spacing:.02em;max-width:760px}
+	.hero-copy{max-width:740px;color:#e4eff0;font-size:17px}
+.hero-copy b{color:#fff}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;border-radius:8px;padding:10px 14px;background:#fff;color:var(--basalt);font-weight:800;border:1px solid rgba(255,255,255,.5)}
+.btn.dark{background:var(--basalt);color:#fff;border-color:#31434a}
+.btn.line{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.38)}
+.flight-board{background:rgba(13,24,29,.72);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(16px);border-radius:18px;box-shadow:0 22px 70px rgba(0,0,0,.28);overflow:hidden}
+.board-top{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:18px 18px 14px;border-bottom:1px solid rgba(255,255,255,.14)}
+.board-top h2{font-family:var(--serif);font-size:25px;margin:0}
+.board-top p{margin:3px 0 0;color:#b9d2d7;font-size:13px}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-family:var(--mono);font-size:12px;font-weight:800;background:rgba(216,180,77,.18);color:#ffe09b;border:1px solid rgba(216,180,77,.45)}
+.mini-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.12)}
+.mini-stat{padding:14px;background:rgba(255,255,255,.07)}
+.mini-stat b{display:block;font-family:var(--mono);font-size:23px;color:#fff;line-height:1.1}
+.mini-stat span{display:block;color:#b9d2d7;font-size:12px;margin-top:4px}
+.board-days{padding:14px;display:grid;gap:8px;max-height:48vh;overflow:auto}
+.route-row{display:grid;grid-template-columns:58px 1fr auto;gap:10px;align-items:center;border-radius:11px;padding:9px 10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);color:#edf7f8}
+.route-row strong{font-family:var(--mono);font-size:13px;color:#fff}
+.route-row small{display:block;color:#a9c3c8;font-size:12px}
+.route-row .km{font-family:var(--mono);font-size:12px;color:#ffe09b;white-space:nowrap}
+.topnav{position:sticky;top:0;z-index:80;background:rgba(246,247,244,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.topnav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+.topnav a,.tool-btn{white-space:nowrap;border-radius:8px;padding:9px 11px;color:#24363c;font-weight:800;font-size:13px;background:transparent;border:1px solid transparent}
+.topnav a.active,.tool-btn.active{background:#e9f2f2;border-color:#cbdcdb;color:#14667b}
+section{padding:54px 0}
+.section-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:end;margin-bottom:20px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#2c7587;font-weight:800}
+h2{font-family:var(--serif);font-size:clamp(27px,4vw,43px);line-height:1.16;margin:7px 0 6px}
+h3{font-family:var(--serif);font-size:23px;margin:0 0 12px}
+.lede{max-width:900px;color:#4f6269;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 26px rgba(23,37,43,.06)}
+.card{padding:18px}
+.panel{padding:20px}
+.note{color:#53666d;font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900;background:#edf4f4;color:#1d6274;border:1px solid #d4e4e4}
+.pill.warn{background:#fff7df;color:#8a6110;border-color:#f1dda0}
+.pill.good{background:#eef7ec;color:#476c25;border-color:#d6e8d0}
+.pill.hot{background:#fff0e9;color:#a84a2a;border-color:#f1c9b8}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tool-btn{background:#fff;border-color:var(--line)}
+.tool-btn:hover{border-color:#7fb0ba}
+.route-lab{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch}
+.map-shell{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);min-height:560px;display:flex;flex-direction:column}
+#map{height:520px;min-height:420px;border-radius:10px;overflow:hidden;z-index:1;flex:1}
+.map-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;color:#5b6f76;font-size:12px}
+.key{display:inline-flex;align-items:center;gap:7px}
+.key i{width:22px;height:4px;border-radius:8px;background:var(--fjord);display:inline-block}
+.key .stay{background:var(--lava)} .key .ferry{background:var(--sulfur)}
+.control-card{display:grid;gap:12px;align-content:start}
+.search{width:100%;border:1px solid var(--line);border-radius:9px;padding:11px 12px;background:#fff;color:var(--ink)}
+.day-tabs{display:flex;gap:7px;overflow:auto;padding-bottom:4px}
+.day-tabs button{flex:0 0 auto;border-radius:8px;padding:8px 10px;background:#fff;border:1px solid var(--line);font-weight:900;color:#35474d}
+.day-tabs button.active{background:var(--basalt);border-color:var(--basalt);color:#fff}
+.active-day{padding:18px;background:#fff;border:1px solid var(--line);border-radius:10px}
+.active-day h3{margin-bottom:4px}
+.active-day .route{color:#4d6168;margin:0 0 12px}
+.route-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.route-tools a,.route-tools button{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#f9fbfb;color:#225f71;font-size:13px;font-weight:800}
+.decision-stack{display:grid;gap:12px}
+.decision{padding:14px;border-left:5px solid var(--fjord);background:#fff;border-radius:8px;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.decision.warn{border-left-color:var(--sulfur)}
+.decision.hot{border-left-color:var(--lava)}
+.decision b{display:block;margin-bottom:3px}
+.timeline{display:grid;gap:14px}
+.day-card{display:grid;grid-template-columns:130px minmax(0,1fr);gap:0;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 8px 28px rgba(23,37,43,.06)}
+.day-card.collapsed .day-content{display:none}
+.day-toggle{border:1px solid var(--line);border-radius:8px;background:#fff;color:#225f71;padding:8px 10px;font-size:13px;font-weight:900}
+.day-toggle:hover{border-color:#8ab7c0;background:#f6fbfb}
+.date-rail{background:var(--basalt);color:#fff;padding:18px 16px;display:flex;flex-direction:column;gap:8px}
+.date-rail b{font-family:var(--mono);font-size:29px;line-height:1}
+.date-rail span{font-size:13px;color:#c3d8dc}
+.day-main{padding:18px}
+.day-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:start}
+.day-head h3{margin:0 0 5px}
+.meta{display:flex;gap:7px;flex-wrap:wrap}
+	.stops{display:grid;gap:9px;margin-top:16px}
+	.day-content-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px;align-items:start}
+	.day-side{position:sticky;top:74px;display:grid;gap:10px;margin-top:16px}
+	.day-map{height:300px;border:1px solid #d8e4e4;border-radius:10px;overflow:hidden;background:#e8f4f8}
+	.route-preview{width:100%;height:100%;display:block;background:#e8f4f8}
+	.stop{display:grid;grid-template-columns:34px minmax(0,1fr);gap:11px;padding:12px;border:1px solid #e3e9e9;border-radius:10px;background:#fbfcfb}
+.stop-card{display:grid;grid-template-columns:1fr;gap:12px}
+	.lp-note{margin-top:8px;padding:10px 11px;border-radius:8px;background:#fff7df;border:1px solid #f0dea6;color:#594516;font-size:13.2px}
+.stop.no-match{display:none}
+.stop-num{width:28px;height:28px;border-radius:50%;background:#e7f2f3;color:#1c697c;font-family:var(--mono);font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.stop h4{margin:0;font-size:16px}
+.names{color:#65787f;font-size:12px;margin-top:2px}
+.stop p{margin:8px 0;color:#3f535a;font-size:13.5px}
+.stop-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:7px;margin-top:8px}
+.info-line{font-size:12.5px;color:#53666d;background:#fff;border:1px solid #e6eeee;border-radius:8px;padding:7px 8px}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.links a,.links button{border:1px solid #d8e4e4;border-radius:8px;background:#fff;color:#225f71;padding:6px 8px;font-size:12.5px;font-weight:800}
+.day-note{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-top:14px}
+.soft{background:#f5f9f9;border:1px solid #dde9e9;border-radius:9px;padding:11px 12px;font-size:13.2px;color:#40555c}
+.soft b{color:#1f343b}
+.table-wrap{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+	table{width:100%;border-collapse:collapse;min-width:680px}
+th,td{padding:12px 13px;border-bottom:1px solid #e8eeee;text-align:left;vertical-align:top}
+th{background:#eaf3f3;color:#1c3b43;font-size:13px}
+td{font-size:13.5px}
+tr:last-child td{border-bottom:0}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.72fr);gap:16px}
+	.playlist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+	.playlist-card input,.todo-input{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 10px;margin-top:8px;background:#fff}
+	.playlist-card h4{margin:0 0 6px;display:flex;align-items:center;gap:10px}
+	.playlist-letter{width:42px;height:42px;border-radius:10px;background:var(--basalt);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:26px;line-height:1}
+	.playlist-card p{margin:0;color:#52666d;font-size:13px}
+	.playlist-master{margin-bottom:12px}
+	.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.check-card label{display:flex;gap:8px;padding:6px 0;color:#40545b;font-size:13.5px}
+.check-card input{accent-color:#2d7d93}
+.sources li{margin:7px 0;color:#475b62}
+footer{background:var(--night);color:#9fb8bf;margin-top:54px;padding:34px 0;font-size:13px}
+footer b{color:#f0fbfd}
+.toast{position:fixed;right:18px;bottom:18px;z-index:200;background:var(--basalt);color:#fff;border-radius:9px;padding:10px 12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.2s}
+.toast.show{opacity:1;transform:translateY(0)}
+.leaflet-popup-content{font-family:var(--font);line-height:1.45}
+	.marker{width:26px;height:26px;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 12px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);font-size:11px;font-weight:900}
+	.marker.stay{border-radius:7px;background:var(--lava)}
+	.marker.stop{background:var(--fjord)}
+	.marker.ferry{background:var(--sulfur);color:#382b04}
+	.map-label{background:rgba(255,255,255,.92);border:1px solid rgba(23,37,43,.18);border-radius:7px;box-shadow:0 2px 9px rgba(0,0,0,.18);color:#1d3138;font-size:11px;font-weight:900;line-height:1.15;padding:3px 6px;white-space:nowrap}
+	.map-label small{display:block;color:#5d727a;font-family:var(--mono);font-size:9px;font-weight:700;margin-top:1px}
+	.popup-lp{margin-top:8px;padding:8px 9px;border-radius:8px;background:#fff7df;border:1px solid #f0dea6;color:#594516;font-size:12.5px}
+	.print-only{display:none}
+@media (max-width:1050px){
+  .hero .wrap,.route-lab,.split{grid-template-columns:1fr}
+  .hero .wrap{align-items:end}
+  .flight-board{margin-top:20px}
+}
+@media (max-width:720px){
+  .wrap{padding:0 14px}
+  .hero{min-height:auto}
+  .hero .wrap{min-height:auto;padding-top:46px}
+  .mini-stats{grid-template-columns:repeat(2,1fr)}
+  .route-row{grid-template-columns:50px 1fr}
+  .route-row .km{grid-column:2}
+	  .section-head{grid-template-columns:1fr}
+	  .day-content-grid{grid-template-columns:1fr}
+	  .day-side{position:static}
+	  .day-card{grid-template-columns:1fr}
+  .stop-card{grid-template-columns:1fr}
+  .date-rail{flex-direction:row;align-items:center;justify-content:space-between}
+  .day-head{grid-template-columns:1fr}
+	  #map{height:440px}
+	  .day-map{height:240px}
+}
+@media print{
+  .topnav,.hero-actions,.tools,.route-tools,.links,.day-tabs,.search,.toast{display:none!important}
+  body{background:#fff;color:#000}
+  .hero{min-height:auto;background:var(--basalt)!important}
+  .hero .wrap{min-height:auto;display:block;padding:28px 22px}
+  .flight-board{box-shadow:none}
+  section{padding:22px 0}
+  .day-card,.card,.panel,.map-shell{box-shadow:none;break-inside:avoid}
+  .print-only{display:block}
+}
+</style>
+</head>
+<body>
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="brandline"><span>Iceland ring road</span><span>2026.07.18-07.28</span><span>2 cars / flexible split</span></div>
+      <h1>冰岛环岛自驾规划书</h1>
+      <p class="hero-copy">初版：用来路上快速查路线、停车、住宿、预订和行李。每个地点都保留中文和当地名；大家点开地图、每日卡片或导航按钮就能直接做导航啦 Google Maps。</p>
+      <div class="hero-actions">
+        <a class="btn" href="#route">查看交互地图</a>
+        <a class="btn line" href="#days">展开每日路线</a>
+        <button class="btn dark" id="printBtn" type="button">打印 / 导出 PDF</button>
+      </div>
+    </div>
+    <aside class="flight-board" aria-label="行程总览">
+      <div class="board-top">
+        <div>
+          <h2>7月18日雷克雅未克集合</h2>
+          <p>7月28日傍晚从 KEF 返回 Lyon，Lyon 过夜待定。</p>
+        </div>
+        <span class="badge">当前主线</span>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat"><b>10</b><span>冰岛住宿晚</span></div>
+        <div class="mini-stat"><b>11</b><span>自然日</span></div>
+        <div class="mini-stat"><b>约2850</b><span>公里，按当天路况微调</span></div>
+        <div class="mini-stat"><b>3</b><span>需提前确认：高地 / 观鲸 / 渡轮</span></div>
+      </div>
+      <div class="board-days" id="heroRows"></div>
+    </aside>
+  </div>
+</header>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="#confirm" class="active">确认事项</a>
+    <a href="#route">地图驾驶台</a>
+    <a href="#days">每日行程</a>
+    <a href="#booking">预订</a>
+    <a href="#music">共享歌单</a>
+    <a href="#todo">出发清单</a>
+  </div>
+</nav>
+
+<main>
+  <section id="confirm">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Trip brief</div>
+          <h2>最终环岛规划总览</h2>
+          <p class="lede">需要和大家讨论的内容：航班衔接、一些细节路线、活动预订、行李和歌单都集中在这里。</p>
+        </div>
+        <div class="tools">
+          <button class="tool-btn" id="copySummary" type="button">复制行程摘要</button>
+          <button class="tool-btn" id="expandAll" type="button">展开全部日程</button>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <span class="pill good">航班</span>
+          <h3>Geneva / Lyon / KEF</h3>
+          <p>去程从日内瓦出发，坐 <b>FlixBus 或火车</b> 到 Lyon，再乘 easyJet <b>LYS -> KEF</b>，抵达雷克雅未克约 <b>19:00</b>。回程按 <b>7月28日 18:00 KEF -> 23:50 LYS</b> 准备，Lyon 当晚过夜。</p>
+          <p class="note">行李额大家可以拼一下，2-3 人合买 1 件托运行李，把十天旅途的厚衣物、防水装备、公共物资和食物调料集中放托运。准备更周全，特别是我们大部分时候是在民宿做饭</p>
+        </article>
+        <article class="card">
+          <span class="pill warn">路线</span>
+          <h3>逆时针环岛 + 西峡湾</h3>
+          <p>主线为 Reykjavík -> Hella -> Vík -> Höfn -> Egilsstaðir -> Mývatn/Húsavík/Akureyri -> Westfjords -> Snæfellsnes -> Reykjavík。目前想法是7月24日给观鲸单独留一天，7月25日坐长途车。</p>
+          <p class="note">西峡湾两天路程较长。需要具体商议关于住宿和渡轮时间。</p>
+        </article>
+        <article class="card">
+          <span class="pill hot">渡轮</span>
+          <h3>Brjánslækur -> Stykkishólmur</h3>
+          <p>7月26日按 Baldur ferry 的 Brjánslækur -> Stykkishólmur 带车渡轮准备。常见班次模式里有 <b>12:00 / 18:00</b> 方向船，实际出票前以 ferja.is 为准。</p>
+          <p class="note">带车上船至少提前45-60分钟到港。不坐渡轮时，改走陆路（比坐船多1h），具体时间当天用 Google Maps 再确认。坐船大概人均60瑞左右</p>
+        </article>
+        <article class="card">
+          <span class="pill good">歌单</span>
+          <h3>Spotify 添加共享歌单</h3>
+          <p>大家把适合自驾、一起开车听、自己喜欢的歌加到 Spotify 共享歌单里，让十天车程更轻松。</p>
+          <p class="note">歌单按主题整理</p>
+        </article>
+        <article class="card">
+          <span class="pill warn">现场原则</span>
+          <h3>高地 / 观鲸 / 西峡湾</h3>
+          <p>Landmannalaugar 前一晚看 road.is / umferdin.is；F 路、车型或天气不合适就走南岸备案。Húsavík 观鲸优先上午班。西峡湾按体力取舍。</p>
+          <p class="note">每天早晚看天气、道路和黑沙滩警示灯，现场安全优先。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="route">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Map cockpit</div>
+          <h2>地图驾驶台</h2>
+          <p class="lede">点击日期会有当天线路。地图点直接标注好了中文名和当地名称，鼠标点击有导航、停车点、购票入口和小红书照片跳转（仅支持电脑）。</p>
+        </div>
+        <div class="tools">
+          <button class="tool-btn active" data-lang="all" type="button">中文 + 当地名</button>
+        </div>
+      </div>
+      <div class="route-lab">
+        <div class="map-shell">
+          <div id="map" role="img" aria-label="冰岛环岛交互地图"></div>
+          <div class="map-legend">
+            <span class="key"><i></i>每日行车线</span>
+            <span class="key"><i class="stay"></i>住宿点</span>
+            <span class="key"><i class="ferry"></i>渡轮段</span>
+            <span class="key">地图底图：OpenStreetMap / Leaflet</span>
+          </div>
+        </div>
+        <aside class="control-card">
+          <input class="search" id="searchBox" placeholder="搜索景点、中文名、冰岛语、停车点">
+          <div class="day-tabs" id="dayTabs"></div>
+          <div class="active-day" id="activeDay"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="days">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Daily navigation</div>
+          <h2>每日导航顺序</h2>
+          <p class="lede">每一天按实际开车顺序排列。Skaftafell/Svartifoss 和西峡湾保留了“分车和轻松”方案，方便现场按体力决定。</p>
+        </div>
+      </div>
+      <div class="timeline" id="dayList"></div>
+    </div>
+  </section>
+
+  <section id="booking">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Booking board</div>
+          <h2>预订与住宿决策</h2>
+          <p class="lede">最先确定租车和住宿，其次是温泉、观鲸、冰湖船和渡轮。米湖住宿难订，所以 Mývatn / Húsavík / Akureyri 三地三选一。</p>
+        </div>
+      </div>
+      <div class="split">
+        <div class="table-wrap"><table id="bookingTable"></table></div>
+        <aside class="panel">
+          <h3>住宿区域</h3>
+          <div id="lodgingList" class="decision-stack"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="music">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Road music</div>
+          <h2>共享歌单与每日氛围</h2>
+          <p class="lede">Spotify 建 4 个共享歌单，大家按开车状态直接往里面加歌。</p>
+        </div>
+        <div class="tools"><button class="tool-btn" id="copyPlaylistPrompt" type="button">复制加歌说明</button></div>
+      </div>
+      <div class="playlist-grid" id="playlistGrid"></div>
+    </div>
+  </section>
+
+  <section id="todo">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Open slots</div>
+          <h2>出发前检查</h2>
+          <p class="lede">出发前把住宿链接、航班号、租车订单、歌单链接和最终费用表补齐。页面里的价格、道路和船班以付款前官方页面为准。</p>
+        </div>
+      </div>
+      <div class="checklist" id="checklist"></div>
+      <div class="panel" style="margin-top:16px">
+        <h3>核验来源</h3>
+        <ul class="sources">
+          <li>EasyJet 航线与低价日历：LYS - KEF / KEF - LYS 出票前复查。</li>
+          <li>Baldur ferry：Brjánslækur - Stykkishólmur 带车位需提前订。</li>
+          <li>umferdin.is / road.is：高地 F 路和普通道路状态。</li>
+          <li>Safetravel：Reynisfjara 黑沙滩警示灯和天气安全。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <b>冰岛环岛自驾规划书 · 展示版</b>
+    <p>最后更新时间：2026-06-16。页面中的价格、时刻、停车费和道路状态不是最终版本</p>
+    <p class="print-only">打印版提示：交互地图在 PDF 中会静态显示当前视图；完整导航请打开 HTML 页面中的 Google Maps 链接。</p>
+  </div>
+</footer>
+<div class="toast" id="toast">已复制</div>
+
+<script>
+const CONFIG = {
+  start: "2026-07-18",
+  outbound: "7/18 Geneva -> Lyon by FlixBus/train, then easyJet LYS -> KEF，抵达约19:00",
+  inbound: "7/28 KEF 18:00 -> LYS 23:50，easyJet 参考 CHF 124；Lyon 过夜待定"
+};
+
+const POIS = {
+  reykjavik:{zh:"雷克雅未克",is:"Reykjavik",no:"Reykjavik",c:[64.1466,-21.9426],kind:"stay",park:"Reykjavik city center parking",parking:"市区停车多为分区收费",pay:"Parka/PayByPhone/路边机",intro:"集合、租车、补给和收官城市。"},
+  kef:{zh:"凯夫拉维克机场",is:"Keflavik International Airport",no:"Keflavik lufthavn",c:[63.985,-22.6056],kind:"airport",park:"Keflavik International Airport",parking:"机场停车/租车公司接驳",pay:"按租车公司说明",intro:"7月18日抵达、7月28日离境。"},
+  hella:{zh:"海德拉 / Hella",is:"Hella",no:"Hella",c:[63.835,-20.400],kind:"stay",park:"Hella",parking:"住处停车",pay:"通常住宿自带",intro:"黄金圈后住宿，便于第二天进高地。"},
+  thingvellir:{zh:"辛格维利尔国家公园",is:"Thingvellir National Park",no:"Tingvalla nasjonalpark",c:[64.2559,-21.1295],kind:"stop",park:"Thingvellir P1 Parking",parking:"付费停车，P1/P2/P5 按路线选",pay:"现场机器/网页",intro:"欧亚与北美板块裂谷，黄金圈第一站。"},
+  geysir:{zh:"盖歇尔间歇泉",is:"Geysir",no:"Geysir",c:[64.3138,-20.3007],kind:"stop",park:"Geysir Parking",parking:"大型停车场",pay:"通常免费/现场确认",intro:"Strokkur 间歇泉数分钟喷发一次。"},
+  gullfoss:{zh:"黄金瀑布",is:"Gullfoss",no:"Gullfoss",c:[64.3271,-20.1199],kind:"stop",park:"Gullfoss Parking",parking:"上下停车场",pay:"通常免费/现场确认",intro:"黄金圈代表性瀑布，风大水雾重。"},
+  bruarfoss:{zh:"布鲁阿瀑布",is:"Bruarfoss",no:"Bruarfoss",c:[64.2646,-20.515],kind:"stop",park:"Bruarfoss Waterfall Official Parking",parking:"官方停车点",pay:"多为付费/现场确认",intro:"蓝色小瀑布，可作为 Kerid 的二选一。"},
+  kerid:{zh:"火山口湖",is:"Kerid Crater",no:"Kerid krater",c:[64.0413,-20.8845],kind:"stop",park:"Kerid Crater Parking",parking:"入口停车",pay:"门票/停车按现场",intro:"红色火山口与蓝绿色湖水，短停友好。"},
+  sigoldu:{zh:"眼泪谷",is:"Sigoldugljufur",no:"Sigoldugljufur-kløften",c:[64.157,-19.138],kind:"stop",park:"Sigoldugljufur parking",parking:"高地碎石停车点",pay:"通常免费/路况优先",intro:"高地峡谷和多条细瀑，F路状态决定是否执行。"},
+  landmannalaugar:{zh:"兰德曼纳高地",is:"Landmannalaugar",no:"Landmannalaugar",c:[63.992,-19.061],kind:"stop",park:"Landmannalaugar Parking",parking:"高地停车/可能需预约",pay:"Parka/官方页面复核",intro:"彩色流纹岩山地，走 Laugahraun 短环线加温泉溪。"},
+  seljalandsfoss:{zh:"塞里雅兰瀑布",is:"Seljalandsfoss",no:"Seljalandsfoss",c:[63.6156,-19.9886],kind:"stop",park:"Seljalandsfoss Parking",parking:"景区主停车场",pay:"付费/Parka 常见",intro:"可走到瀑布后方，必须穿防水层。"},
+  skogafoss:{zh:"斯科加瀑布",is:"Skogafoss",no:"Skogafoss",c:[63.5321,-19.5114],kind:"stop",park:"Skogafoss Parking",parking:"主停车场",pay:"现场/Parka 复核",intro:"南岸大瀑布，可上楼梯俯瞰。"},
+  dc3:{zh:"DC-3 飞机残骸",is:"Solheimasandur Plane Wreck",no:"DC-3-flyvraket",c:[63.459,-19.364],kind:"stop",park:"Solheimasandur Plane Wreck Parking",parking:"停车后步行或坐接驳车",pay:"接驳车/停车现场确认",intro:"耗时长，和冰川徒步二选一更合理。"},
+  vik:{zh:"维克",is:"Vik",no:"Vik",c:[63.4186,-19.006],kind:"stay",park:"Vik",parking:"住处停车",pay:"通常住宿自带",intro:"黑沙滩与南岸住宿核心点。"},
+  dyrholaey:{zh:"迪霍拉里海角",is:"Dyrholaey",no:"Dyrholaey",c:[63.3995,-19.126],kind:"stop",park:"Dyrholaey Parking",parking:"上/下停车点",pay:"通常免费/现场确认",intro:"海拱、灯塔和黑沙滩高视角。"},
+  reynisfjara:{zh:"雷尼斯黑沙滩",is:"Reynisfjara",no:"Reynisfjara svart sandstrand",c:[63.4043,-19.044],kind:"stop",park:"Reynisfjara Parking",parking:"主停车场",pay:"付费/Parka 常见",intro:"只按警示灯行动；红灯不下沙滩，不背对海浪。"},
+  fjadra:{zh:"羽毛峡谷",is:"Fjadrargljufur",no:"Fjadrargljufur-kløften",c:[63.771,-18.172],kind:"stop",park:"Fjadrargljufur Parking",parking:"景区停车",pay:"现场/Parka 复核",intro:"短步道峡谷，雨天注意泥泞。"},
+  skaftafell:{zh:"斯卡夫塔山",is:"Skaftafell",no:"Skaftafell",c:[64.015,-16.966],kind:"stop",park:"Skaftafell Visitor Centre Parking",parking:"游客中心停车",pay:"付费/车牌缴费",intro:"Svartifoss 2小时线；体力好可改 5小时线。"},
+  svartifoss:{zh:"黑瀑布",is:"Svartifoss",no:"Svartifoss",c:[64.023,-16.975],kind:"stop",park:"Skaftafell Visitor Centre Parking",parking:"同 Skaftafell",pay:"付费/车牌缴费",intro:"玄武岩柱瀑布，徒步往返约 1.5-2小时。"},
+  fjallsarlon:{zh:"Fjallsarlon 冰湖",is:"Fjallsarlon",no:"Fjallsarlon brelagune",c:[64.016,-16.385],kind:"stop",park:"Fjallsarlon Parking",parking:"冰湖停车场",pay:"通常免费/现场确认",intro:"比 Jökulsárlón 更安静，适合短停。"},
+  jokulsarlon:{zh:"杰古沙龙冰河湖",is:"Jokulsarlon",no:"Jokulsarlon brelagune",c:[64.048,-16.179],kind:"stop",park:"Jokulsarlon Glacier Lagoon Parking",parking:"游客中心/船游停车",pay:"付费规则复核",intro:"可订 Zodiac 船，旁边有 Cafe 和船游集合点。"},
+  diamond:{zh:"钻石沙滩 / Breidamerkursandur",is:"Diamond Beach",no:"Diamantstranden",c:[64.044,-16.178],kind:"stop",park:"Diamond Beach Parking",parking:"桥两侧停车点",pay:"付费规则复核",intro:"冰块随潮汐变化，不保证每天都有大量冰。"},
+  hofn:{zh:"赫本",is:"Hofn",no:"Hofn",c:[64.2497,-15.202],kind:"stay",park:"Hofn",parking:"住处停车",pay:"通常住宿自带",intro:"龙虾汤/海鲜晚餐，冰川日后的落脚点。"},
+  vestrahorn:{zh:"西角山 / 蝙蝠山",is:"Vestrahorn / Stokksnes",no:"Vestrahorn",c:[64.244,-14.972],kind:"stop",park:"Stokksnes Viking Cafe Parking",parking:"Viking Cafe 入口",pay:"私人土地门票",intro:"倒影、黑沙滩和山体剪影，天气决定价值。"},
+  hvalnes:{zh:"Hvalnes 自然保护区海滩",is:"Hvalnes Nature Reserve Beach",no:"Hvalnes naturreservatstrand",c:[64.403,-14.54],kind:"stop",park:"Hvalnes Lighthouse Parking",parking:"灯塔/海滩停车",pay:"通常免费/现场确认",intro:"东峡湾路上短停点。"},
+  djupivogur:{zh:"都皮沃古尔",is:"Djupivogur",no:"Djupivogur",c:[64.656,-14.285],kind:"stop",park:"Djupivogur harbour parking",parking:"港口/镇中心停车",pay:"通常免费/现场确认",intro:"东峡湾小镇，适合午餐和休息。"},
+  petra:{zh:"Petra 石头博物馆",is:"Petra's Stone Collection",no:"Petras steinsamling",c:[64.833,-13.884],kind:"stop",park:"Petra's Stone Collection Parking",parking:"馆外停车",pay:"门票/停车现场",intro:"私人石头收藏，适合雨天和轻松短停。"},
+  egils:{zh:"埃伊尔斯塔济",is:"Egilsstadir",no:"Egilsstadir",c:[65.267,-14.394],kind:"stay",park:"Egilsstadir",parking:"住处停车",pay:"通常住宿自带",intro:"东部住宿和补给点。"},
+  seydis:{zh:"塞济斯菲厄泽",is:"Seydisfjordur",no:"Seydisfjordur",c:[65.260,-14.010],kind:"stop",park:"Seydisfjordur rainbow street parking",parking:"镇中心停车",pay:"通常免费/现场确认",intro:"彩虹街和峡湾小镇，山口起雾则取消。"},
+  studlagil:{zh:"斯图德拉吉尔峡谷",is:"Studlagil",no:"Studlagil-kløften",c:[65.164,-15.307],kind:"stop",park:"Studlagil East side Parking",parking:"东岸徒步停车/西岸观景停车",pay:"现场确认",intro:"东岸徒步约4公里视角更好；西岸更省体力。"},
+  dettifoss:{zh:"代提瀑布",is:"Dettifoss",no:"Dettifoss",c:[65.8147,-16.3849],kind:"stop",park:"Dettifoss West Side Parking",parking:"东西岸道路不同",pay:"通常免费/现场确认",intro:"欧洲水量巨大的瀑布，注意路况和风雨。"},
+  hverir:{zh:"Hverir 地热区",is:"Hverir",no:"Hverir geotermisk område",c:[65.641,-16.808],kind:"stop",park:"Hverir Parking",parking:"景区停车",pay:"付费/Parka 常见",intro:"硫磺泥浆和蒸汽区，不踩越界线。"},
+  grjotagja:{zh:"Grjotagja 岩洞温泉",is:"Grjotagja",no:"Grjotagja-grotten",c:[65.626,-16.883],kind:"stop",park:"Grjotagja Parking",parking:"洞口停车",pay:"现场确认",intro:"只能参观，通常不允许泡。"},
+  dimmu:{zh:"黑色城堡",is:"Dimmuborgir",no:"Dimmuborgir",c:[65.591,-16.912],kind:"stop",park:"Dimmuborgir Parking",parking:"游客中心停车",pay:"通常免费/现场确认",intro:"熔岩迷宫，可按体力走短线。"},
+  myvatn:{zh:"米湖天然浴场",is:"Myvatn Nature Baths",no:"Myvatn naturbad",c:[65.631,-16.847],kind:"stop",park:"Myvatn Nature Baths Parking",parking:"浴场停车",pay:"随门票/现场确认",intro:"北部温泉，住宿紧张时可作为当天收尾活动。"},
+  husavik:{zh:"胡萨维克",is:"Husavik",no:"Husavik",c:[66.0449,-17.3389],kind:"stop",park:"Husavik Whale Watching Harbour",parking:"港口/运营商停车",pay:"现场/运营商说明",intro:"观鲸核心地，木船稳、快艇刺激。"},
+  godafoss:{zh:"众神瀑布",is:"Godafoss",no:"Godafoss",c:[65.6828,-17.5502],kind:"stop",park:"Godafoss East Parking",parking:"东西两侧停车",pay:"通常免费/现场确认",intro:"胡萨维克与阿克雷里之间的顺路瀑布。"},
+  akureyri:{zh:"阿克雷里",is:"Akureyri",no:"Akureyri",c:[65.6885,-18.1262],kind:"stay",park:"Akureyri",parking:"住处/市区停车",pay:"市区分区",intro:"北部大镇，观鲸后住宿或补给。"},
+  glaumbaer:{zh:"Glaumbaer 草皮农庄",is:"Glaumbaer",no:"Glaumbaer torvgard",c:[65.609,-19.507],kind:"stop",park:"Glaumbaer Farm & Museum Parking",parking:"博物馆停车",pay:"门票/现场确认",intro:"北部历史草皮屋。"},
+  blondous:{zh:"布伦迪欧斯",is:"Blonduos",no:"Blonduos",c:[65.660,-20.280],kind:"stop",park:"Blonduos town centre parking",parking:"镇中心停车",pay:"通常免费/现场确认",intro:"长途转场休息补给点。"},
+  hvitserkur:{zh:"犀牛石",is:"Hvitserkur",no:"Hvitserkur",c:[65.606,-20.635],kind:"stop",park:"Hvitserkur Parking",parking:"碎石路停车点",pay:"通常免费/现场确认",intro:"需要绕路，天气差或时间紧就删除。"},
+  drangsnes:{zh:"Drangsnes 海边热水桶",is:"Drangsnes Hot Pots",no:"Drangsnes varme bad",c:[65.688,-21.448],kind:"stop",park:"Drangsnes Hot Pots Parking",parking:"路边停车",pay:"捐款/现场说明",intro:"海边公共热水桶，适合转场日放松。"},
+  holmavik:{zh:"侯尔马维克",is:"Holmavik",no:"Holmavik",c:[65.704,-21.683],kind:"stay",park:"Holmavik",parking:"住处停车",pay:"通常住宿自带",intro:"进入西峡湾前的现实住宿点。"},
+  isafjordur:{zh:"伊萨菲厄泽",is:"Isafjordur",no:"Isafjordur",c:[66.074,-23.126],kind:"stay",park:"Isafjordur",parking:"住处/镇中心停车",pay:"现场确认",intro:"西峡湾核心城镇，但从北部转场距离更长。"},
+  hornstrandir:{zh:"豪斯川迪尔自然保护区",is:"Hornstrandir",no:"Hornstrandir naturreservat",c:[66.37,-22.45],kind:"stop",park:"Isafjordur harbour Hornstrandir boat",parking:"需船班，不是自驾点",pay:"船票/向导",intro:"只作为待订船班方案；不能当作普通下午顺路景点。"},
+  dynjandi:{zh:"丁坚地瀑布",is:"Dynjandi",no:"Dynjandi",c:[65.736,-23.199],kind:"stop",park:"Dynjandi Parking",parking:"瀑布停车场",pay:"通常免费/现场确认",intro:"西峡湾优先级最高景点。"},
+  latrabjarg:{zh:"拉特拉尔角海鸟悬崖",is:"Latrabjarg",no:"Latrabjarg fuglefjell",c:[65.502,-24.531],kind:"stop",park:"Latrabjarg Parking",parking:"悬崖小停车点",pay:"通常免费/现场确认",intro:"海鸟悬崖，风大雾大不靠近崖边。"},
+  ferry:{zh:"Brjanslaekur 渡轮码头",is:"Brjanslaekur ferry terminal",no:"Brjanslaekur fergehavn",c:[65.530,-23.190],kind:"ferry",park:"Brjanslaekur ferry terminal",parking:"带车排队区",pay:"ferja.is 车票",intro:"7月26日需按官网班次提前到港。"},
+  stykk:{zh:"斯蒂基斯霍尔米",is:"Stykkisholmur",no:"Stykkisholmur",c:[65.075,-22.725],kind:"stay",park:"Stykkisholmur",parking:"住处/港口停车",pay:"现场确认",intro:"渡轮抵达后的住宿点。"},
+  kirkjufell:{zh:"教会山 / 草帽山",is:"Kirkjufell",no:"Kirkjufell",c:[64.941,-23.306],kind:"stop",park:"Kirkjufell Parking",parking:"官方停车场",pay:"付费/现场确认",intro:"斯奈山半岛标志性山体和瀑布。"},
+  arnarstapi:{zh:"阿尔纳斯塔皮海岸",is:"Arnarstapi",no:"Arnarstapi kyst",c:[64.766,-23.628],kind:"stop",park:"Arnarstapi Parking",parking:"村口/海岸停车",pay:"现场确认",intro:"海蚀拱与玄武岩海岸步道。"},
+  budir:{zh:"布迪尔黑教堂",is:"Budakirkja",no:"Budir svarte kirke",c:[64.822,-23.384],kind:"stop",park:"Budakirkja Parking",parking:"教堂小停车场",pay:"通常免费/现场确认",intro:"黑教堂短停点，注意婚礼/活动时避让。"},
+  ytritunga:{zh:"Ytri Tunga 海豹滩",is:"Ytri Tunga",no:"Ytri Tunga selstrand",c:[64.803,-23.080],kind:"stop",park:"Ytri Tunga Parking",parking:"海滩停车场",pay:"付费/Parka 常见",intro:"看海豹需要保持距离，不追逐。"},
+  sky:{zh:"Sky Lagoon",is:"Sky Lagoon",no:"Sky Lagoon",c:[64.111,-21.832],kind:"stop",park:"Sky Lagoon Parking",parking:"浴场停车",pay:"门票/现场",intro:"雷市收官温泉备选。"},
+  blue:{zh:"蓝湖",is:"Blue Lagoon",no:"Den bla lagune",c:[63.880,-22.449],kind:"stop",park:"Blue Lagoon Parking",parking:"浴场停车",pay:"门票/现场",intro:"可放抵达日或离境日，但需看火山/道路更新。"}
+};
+
+Object.assign(POIS, {
+  reykjavik:{...POIS.reykjavik, nav:"Reykjavik", park:null, wiki:"Reykjavik", lp:"LP笔记：雷克雅未克适合作为抵达和收官城市，市区温泉、博物馆、海边步道和餐厅密集，适合处理租车、补给和最后一晚聚餐。"},
+  kef:{...POIS.kef, nav:"Keflavik International Airport", parkingNav:"Keflavik International Airport Rental Cars", wiki:"Keflavik International Airport"},
+  hella:{...POIS.hella, nav:"Hella", park:null, lp:"LP笔记：Hella 一带是黄金圈和南岸之间的实用落脚点，适合作为进出高地前后的住宿和补给基地。"},
+  thingvellir:{...POIS.thingvellir, nav:"Thingvellir National Park", parkingNav:"Thingvellir Visitor Center Parking P1", parking:"P1游客中心最适合第一次到访；想接近 Öxarárfoss 可看 P2", pay:"官网显示小车约1000 ISK、6-9座约1200 ISK，全天有效", wiki:"Thingvellir", lp:"LP笔记：这里同时是板块裂谷和冰岛古议会所在地，Almannagjá 裂谷、Lögberg、Öxarárfoss 是最值得串起来走的点。"},
+  geysir:{...POIS.geysir, nav:"Geysir", parkingNav:"Geysir Center Car Park", parking:"Geysir Center 对面大型停车场", pay:"通常不单独收费，现场确认", wiki:"Geysir", lp:"LP笔记：Geysir 地热区的主角是 Strokkur，喷发频率高，适合短停观察；周边餐饮和洗手间方便。"},
+  gullfoss:{...POIS.gullfoss, nav:"Gullfoss", parkingNav:"Gullfoss Visitor Center Parking", parking:"游客中心上停车场；下停车场更接近步道", pay:"通常不单独收费，现场确认", wiki:"Gullfoss", lp:"LP笔记：Gullfoss 是黄金圈核心瀑布，水雾和风都很明显，步道分上、下视角，防水层很有用。"},
+  bruarfoss:{...POIS.bruarfoss, nav:"Bruarfoss", parkingNav:"Bruarfoss Waterfall Official Parking", wiki:"Bruarfoss", lp:"LP笔记：蓝色水流是亮点，但需要多留步行时间；若当天租车或黄金圈节奏慢，可以和 Kerið 二选一。"},
+  kerid:{...POIS.kerid, nav:"Kerid Crater", parkingNav:"Kerid Crater Parking Lot", ticket:"https://kerid.is/", wiki:"Kerid", lp:"LP笔记：Kerið 是一个颜色对比很强的火山口湖，环湖短线很适合放在黄金圈收尾。"},
+  sigoldu:{...POIS.sigoldu, nav:"Sigoldugljufur", parkingNav:"Sigoldugljufur Parking", wiki:"Sig%C3%B6lduglj%C3%BAfur", lp:"LP笔记：这是高地日的风景加分项，路况和天气比名气更重要；如果 F 路当天不理想，直接取消。"},
+  landmannalaugar:{...POIS.landmannalaugar, nav:"Landmannalaugar", parkingNav:"Landmannalaugar Main Parking", ticket:"https://parka.is/parking/landmannalaugar/?_lang=en", parking:"6月20日到9月中旬白天进入需提前预约停车", pay:"Parka 预约/缴费，抵达前确认 F 路状态", wiki:"Landmannalaugar", lp:"LP笔记：LP 强调这里的彩色流纹岩山、Laugahraun 熔岩和天然温泉溪。夏季自驾必须看 F 路、保险和停车预约。"},
+  seljalandsfoss:{...POIS.seljalandsfoss, nav:"Seljalandsfoss", parkingNav:"Seljalandsfoss Parking Lot", pay:"常见付费停车，现场或 App 缴费", wiki:"Seljalandsfoss", lp:"LP笔记：这里可以走到瀑布后面，水雾很重。旁边的 Gljúfrabúi 如时间允许也值得短走。"},
+  skogafoss:{...POIS.skogafoss, nav:"Skogafoss", parkingNav:"Skogafoss Parking Lot", pay:"LP 2026 标注停车约1000 ISK，Parka/现场确认", wiki:"Skogafoss", lp:"LP笔记：62米高瀑布就在环岛路旁，可走到瀑布脚下，也可上楼梯看俯视角；Fimmvörðuháls 徒步从这里开始。"},
+  dc3:{...POIS.dc3, nav:"Solheimasandur Plane Wreck", parkingNav:"Solheimasandur Plane Wreck Parking", wiki:"S%C3%B3lheimasandur", lp:"LP笔记：飞机残骸耗时较长，适合拍照但不是必须项；当天若高地或瀑布用时多，可以删掉。"},
+  vik:{...POIS.vik, nav:"Vik", park:null, wiki:"V%C3%ADk_%C3%AD_M%C3%BDrdal", lp:"LP笔记：Vík 是南岸黑沙滩、Reynisdrangar 海蚀柱和周边活动的基地，适合住一晚后早上避开人潮。"},
+  dyrholaey:{...POIS.dyrholaey, nav:"Dyrholaey", parkingNav:"Dyrholaey Lighthouse Parking", pay:"LP 2026 标注停车约750 ISK；上停车点靠近灯塔", wiki:"Dyrh%C3%B3laey", lp:"LP笔记：Dyrhólaey 的重点是海拱、崖顶视角、黑沙滩和夏季海鸟。LP 提到有上、下两个停车区域。"},
+  reynisfjara:{...POIS.reynisfjara, nav:"Reynisfjara", parkingNav:"Reynisfjara Black Sand Beach Parking", pay:"LP 2026 标注停车约1000 ISK；按现场/App 缴费", wiki:"Reynisfjara", lp:"LP笔记：黑沙滩很上镜，但安全优先。LP 特别提醒这里不适合游泳、长时间贴海边走或背对海浪自拍。"},
+  fjadra:{...POIS.fjadra, nav:"Fjadrargljufur", parkingNav:"Fjadrargljufur Canyon Parking", wiki:"Fja%C3%B0r%C3%A1rglj%C3%BAfur", lp:"LP笔记：LP 把它列为 Vík 到东南冰川区路上的优秀短停，峡谷和瀑布视角好。"},
+  skaftafell:{...POIS.skaftafell, nav:"Skaftafell Visitor Centre", parkingNav:"Skaftafell Visitor Centre Parking", pay:"Vatnajökull 官方区域停车费；Parka/车牌缴费", wiki:"Skaftafell", lp:"LP笔记：Skaftafell 是 Vatnajökull 南部的徒步基地。短线可走 Svartifoss，体力好再考虑 Sjónarnípa 或更长环线。"},
+  svartifoss:{...POIS.svartifoss, nav:"Svartifoss", parkingNav:"Skaftafell Visitor Centre Parking", wiki:"Svartifoss", lp:"LP笔记：Svartifoss 以玄武岩柱背景出名，从游客中心往返约1.5-2小时，适合当天默认徒步。"},
+  fjallsarlon:{...POIS.fjallsarlon, nav:"Fjallsarlon", parkingNav:"Fjallsarlon Glacier Lagoon Parking", pay:"Fjallsárlón 官方说明停车免费", wiki:"Fjalls%C3%A1rl%C3%B3n", lp:"LP笔记：比 Jökulsárlón 安静，适合在冰湖日作为前置短停。"},
+  jokulsarlon:{...POIS.jokulsarlon, nav:"Jokulsarlon Glacier Lagoon", parkingNav:"Jokulsarlon Glacier Lagoon Main Parking", ticket:"https://icelagoon.is/zodiac-tours/", pay:"Vatnajökull 区域停车费，Skaftafell/Jökulsárlón 同日支付规则按官方为准", wiki:"J%C3%B6kuls%C3%A1rl%C3%B3n", lp:"LP笔记：Jökulsárlón 是冰山、海豹和船游的核心点。LP 提到船游通常在5-10月运行。"},
+  diamond:{...POIS.diamond, nav:"Diamond Beach", parkingNav:"Diamond Beach Parking Lot", wiki:"Diamond_Beach_(Iceland)", lp:"LP笔记：冰块被海浪带到黑沙滩上，效果看潮汐和当天冰量；和 Jökulsárlón 共用当天冰湖时间。"},
+  hofn:{...POIS.hofn, nav:"Hofn", park:null, wiki:"H%C3%B6fn", lp:"LP笔记：Höfn 是东南段舒适落脚点，适合把冰湖日收在这里，晚餐可安排龙虾汤或海鲜。"},
+  vestrahorn:{...POIS.vestrahorn, nav:"Vestrahorn Stokksnes", parkingNav:"Viking Cafe Stokksnes", ticket:"https://vikingcafe.com/", wiki:"Vestrahorn", lp:"LP笔记：Stokksnes/Vestrahorn 的价值很看天气；晴天或低云时倒影、黑沙和山体线条很漂亮。"},
+  hvalnes:{...POIS.hvalnes, nav:"Hvalnes Lighthouse", parkingNav:"Hvalnes Lighthouse", lp:"LP笔记：东峡湾路上适合短暂停车看海岸和灯塔，不占太久时间。"},
+  djupivogur:{...POIS.djupivogur, nav:"Djupivogur", park:null, wiki:"Dj%C3%BApivogur", lp:"LP笔记：Djúpivogur 是东峡湾轻松补给点，适合午餐、咖啡和短暂散步。"},
+  petra:{...POIS.petra, nav:"Petra's Stone Collection", parkingNav:"Petra's Stone Collection", ticket:"https://www.steinapetra.is/", wiki:"Petra%27s_Stone_Collection", lp:"LP笔记：Petra 石头博物馆适合雨天或轻松短停，属于东峡湾很有地方感的小馆。"},
+  egils:{...POIS.egils, nav:"Egilsstadir", park:null, wiki:"Egilssta%C3%B0ir", lp:"LP笔记：Egilsstaðir 是东部主要服务城镇，住宿、超市、加油都比较方便。"},
+  seydis:{...POIS.seydis, nav:"Seydisfjordur", parkingNav:"Seydisfjordur Rainbow Street", wiki:"Sey%C3%B0isfj%C3%B6r%C3%B0ur", lp:"LP笔记：LP 推荐彩虹街、蓝教堂和咖啡馆；如果山口起雾，放弃这条支线。"},
+  studlagil:{...POIS.studlagil, nav:"Studlagil Canyon", parkingNav:"Studlagil East side Parking", wiki:"Stu%C3%B0lagil", lp:"LP笔记：东岸需要走一段路但视角更好；西岸更省时间。当天按体力和天气选择。"},
+  dettifoss:{...POIS.dettifoss, nav:"Dettifoss", parkingNav:"Dettifoss West Side Parking", wiki:"Dettifoss", lp:"LP笔记：北部代表性大瀑布，水量和声势是重点。东西岸道路不同，当天跟着路况选。"},
+  hverir:{...POIS.hverir, nav:"Hverir", parkingNav:"Hverir Parking", wiki:"Hverir", lp:"LP笔记：Hverir 是硫磺蒸汽、泥浆和地热色彩区，适合短停拍照，但不要踩出步道。"},
+  grjotagja:{...POIS.grjotagja, nav:"Grjotagja", parkingNav:"Grjotagja Parking", wiki:"Grj%C3%B3tagj%C3%A1", lp:"LP笔记：洞内温泉只适合参观和拍照，通常不作为泡汤点。"},
+  dimmu:{...POIS.dimmu, nav:"Dimmuborgir", parkingNav:"Dimmuborgir Parking", wiki:"Dimmuborgir", lp:"LP笔记：熔岩迷宫路线可长可短，适合和 Hverir、Grjótagjá 组合成米湖半日。"},
+  myvatn:{...POIS.myvatn, nav:"Myvatn Nature Baths", parkingNav:"Myvatn Nature Baths Parking", ticket:"https://www.myvatnnaturebaths.is/", wiki:"M%C3%BDvatn", lp:"LP笔记：米湖区有温泉、地热、熔岩地貌和鸟类，但住宿紧张，Húsavík/Akureyri 可作为替代住宿地。"},
+  husavik:{...POIS.husavik, nav:"Husavik", parkingNav:"Gentle Giants Ticket Center Husavik", ticket:"https://www.gentlegiants.is/", wiki:"H%C3%BAsav%C3%ADk", lp:"LP笔记：LP 把 Húsavík 作为观鲸重点地之一，蓝鲸、座头鲸和小须鲸都有机会看到，实际看风浪和季节。"},
+  godafoss:{...POIS.godafoss, nav:"Godafoss", parkingNav:"Godafoss East Parking", wiki:"Go%C3%B0afoss", lp:"LP笔记：Goðafoss 适合放在 Húsavík 和 Akureyri 之间，停车后短走即可看到主要视角。"},
+  akureyri:{...POIS.akureyri, nav:"Akureyri", park:null, wiki:"Akureyri", lp:"LP笔记：Akureyri 是北部最大城镇，餐饮、补给、住宿更容易安排，也适合做观鲸后的缓冲。"},
+  glaumbaer:{...POIS.glaumbaer, nav:"Glaumbaer Farm & Museum", parkingNav:"Glaumbaer Farm & Museum", ticket:"https://www.glaumbaer.is/en", wiki:"Glaumb%C3%A6r", lp:"LP笔记：草皮农庄适合把北部历史和建筑加入长途转场日。"},
+  blondous:{...POIS.blondous, nav:"Blonduos", park:null, wiki:"Bl%C3%B6ndu%C3%B3s", lp:"LP笔记：Blönduós 更像转场休息和补给点，不需要单独安排停车导航。"},
+  hvitserkur:{...POIS.hvitserkur, nav:"Hvitserkur", parkingNav:"Hvitserkur Parking", wiki:"Hv%C3%ADtserkur", lp:"LP笔记：犀牛石需要绕路，适合天气好、时间够时加入；赶路日可以删。"},
+  drangsnes:{...POIS.drangsnes, nav:"Drangsnes Hot Pots", parkingNav:"Drangsnes Hot Pots", wiki:"Drangsnes", lp:"LP笔记：海边热水桶适合长途转场后放松，按现场说明付款或捐款。"},
+  holmavik:{...POIS.holmavik, nav:"Holmavik", park:null, wiki:"H%C3%B3lmav%C3%ADk", lp:"LP笔记：Hólmavík 是进入西峡湾前比较实际的住宿点，也有民俗相关小馆。"},
+  isafjordur:{...POIS.isafjordur, nav:"Isafjordur", park:null, wiki:"%C3%8Dsafj%C3%B6r%C3%B0ur", lp:"LP笔记：Ísafjörður 是西峡湾最大城镇和活动基地，但从北部开到这里会拉长当天车程。"},
+  hornstrandir:{...POIS.hornstrandir, nav:"Hornstrandir", parkingNav:"Isafjordur Harbour", ticket:"https://www.westfjords.is/en/destinations/nature/hornstrandir", wiki:"Hornstrandir", lp:"LP笔记：Hornstrandir 需要船班和明确徒步计划，不适合作为临时顺路点。"},
+  dynjandi:{...POIS.dynjandi, nav:"Dynjandi", parkingNav:"Dynjandi Parking", wiki:"Dynjandi", lp:"LP笔记：Dynjandi 是西峡湾最值得保留的瀑布点，层叠瀑布群从停车场逐步上行观看。"},
+  latrabjarg:{...POIS.latrabjarg, nav:"Latrabjarg", parkingNav:"Latrabjarg Parking", wiki:"L%C3%A1trabjarg", lp:"LP笔记：Látrabjarg 是欧洲西端的海鸟悬崖，夏季有机会看海鸟；风大或雾大时不靠近边缘。"},
+  ferry:{...POIS.ferry, nav:"Brjanslaekur ferry terminal", parkingNav:"Brjanslaekur ferry terminal", ticket:"https://ferja.is/en/our-ferries/baldur/sailing-schedule", wiki:"Brj%C3%A1nsl%C3%A6kur", lp:"LP笔记：Baldur 渡轮连接西峡湾和斯奈山半岛，带车位要提前订，并按船公司要求提前到港。"},
+  stykk:{...POIS.stykk, nav:"Stykkisholmur", park:null, wiki:"Stykkish%C3%B3lmur", lp:"LP笔记：Stykkishólmur 是渡轮抵达后的好落脚点，也适合作为斯奈山半岛北岸起点。"},
+  kirkjufell:{...POIS.kirkjufell, nav:"Kirkjufell", parkingNav:"Kirkjufellsfoss Parking Lot", wiki:"Kirkjufell", lp:"LP笔记：LP 形容 Kirkjufell 是 Grundarfjörður 的标志性金字塔山，也是冰岛最常被拍摄的地点之一；常见机位在 Kirkjufellsfoss 一侧。"},
+  arnarstapi:{...POIS.arnarstapi, nav:"Arnarstapi", parkingNav:"Arnarstapi Cliff Viewpoint Parking", wiki:"Arnarstapi", lp:"LP笔记：Hellnar-Arnarstapi 海岸步道约2.5公里，沿海蚀拱、熔岩和海鸟崖行走；时间少就只在 Arnarstapi 海岸短停。"},
+  budir:{...POIS.budir, nav:"Budakirkja", parkingNav:"Budakirkja Parking", wiki:"B%C3%BA%C3%B0ir", lp:"LP笔记：黑教堂是斯奈山南岸短停点，适合和 Arnarstapi、Ytri Tunga 顺路串联。"},
+  ytritunga:{...POIS.ytritunga, nav:"Ytri Tunga", parkingNav:"Ytri Tunga Beach Parking", wiki:"Ytri_Tunga", lp:"LP笔记：Ytri Tunga 是看海豹的轻量停靠点，保持距离比靠近拍照更重要。"},
+  sky:{...POIS.sky, nav:"Sky Lagoon", parkingNav:"Sky Lagoon Parking", ticket:"https://www.skylagoon.com/booking", wiki:"Sky_Lagoon", lp:"LP笔记：Sky Lagoon 在雷市附近，适合收官日或蓝湖备选，七步仪式和海景是主体验。"},
+  blue:{...POIS.blue, nav:"Blue Lagoon", parkingNav:"Blue Lagoon Parking", ticket:"https://www.bluelagoon.com/day-visit/the-blue-lagoon", wiki:"Blue_Lagoon_(geothermal_spa)", lp:"LP笔记：蓝湖是经典地热温泉体验，适合放在抵达或离境日；火山和道路信息要看官方更新。"}
+});
+
+Object.assign(POIS, {
+  reykjavik:{...POIS.reykjavik, lp:"雷克雅未克是冰岛最现实的集合和收尾点：租车、超市、户外装备店和餐厅都集中。市区不必硬塞太多景点，重点是把补给、休息和最后一晚聚餐安排顺。"},
+  hella:{...POIS.hella, lp:"Hella 本身不是观光重点，但位置很实用：一边接黄金圈，一边接南岸和高地方向。住这里的价值是第二天少走回头路，并且更早判断高地是否能进。"},
+  thingvellir:{...POIS.thingvellir, lp:"这里是冰岛最适合用来理解地质的一站：欧亚板块和北美板块在这里张裂，形成 Almannagjá 裂谷。它也是古议会所在地，把裂谷、Lögberg 和 Öxarárfoss 串起来走，会比只停车拍照更完整。"},
+  geysir:{...POIS.geysir, lp:"Geysir 地热区的主角通常是 Strokkur，它几分钟喷发一次，适合大家等一两轮喷发再走。这里能看到地下热水、蒸汽压力和火山地热共同作用，停留时间短但辨识度很高。"},
+  gullfoss:{...POIS.gullfoss, lp:"Gullfoss 是冰川河 Hvítá 切出的双层瀑布，水量、风和水雾都很强。上、下两个视角差别明显：上方看地形，下方更有冲击力，防水外层很有用。"},
+  bruarfoss:{...POIS.bruarfoss, lp:"Brúarfoss 的亮点是冰川河水呈现很干净的蓝色，尺度不大但颜色特别。它比黄金圈三大点更安静，适合当作当天的风景加分项；如果时间被租车或吃饭压缩，就和 Kerið 二选一。"},
+  kerid:{...POIS.kerid, lp:"Kerið 是火山口湖，红色火山渣、深色坡面和蓝绿色湖水放在一起很醒目。环湖短线很轻量，适合黄金圈尾声补一个地貌类型。"},
+  sigoldu:{...POIS.sigoldu, lp:"Sigöldugljúfur 像高地里的隐藏峡谷，重点是峡谷壁和一串细瀑形成的层次。它的观感很依赖天气和路况，F 路当天不理想就不要勉强。"},
+  landmannalaugar:{...POIS.landmannalaugar, lp:"Landmannalaugar 的彩色流纹岩山是高地最有代表性的风景之一，颜色来自火山岩和矿物成分差异。短线可走 Laugahraun 熔岩区，再看时间泡天然温泉溪；这一天的前提是 F 路、车型、保险和停车预约都成立。"},
+  seljalandsfoss:{...POIS.seljalandsfoss, lp:"Seljalandsfoss 的特别之处是可以绕到瀑布后面，从水幕背后看南岸平原。水雾会把人和相机都打湿，鞋底防滑、防水层比拍照姿势重要。旁边的 Gljúfrabúi 如果时间够也值得短走。"},
+  skogafoss:{...POIS.skogafoss, lp:"Skógafoss 高约 62 米，正面看是非常典型的南岸大瀑布。楼梯上去可以俯瞰水流和海岸平原，也能感受到 Fimmvörðuháls 长线徒步的起点氛围。"},
+  dc3:{...POIS.dc3, lp:"DC-3 飞机残骸更偏拍照打卡，风景本身不如瀑布和冰川紧凑。因为从停车场到残骸需要额外时间，当天只在天气好、大家还不累时保留。"},
+  vik:{...POIS.vik, lp:"Vík 是南岸黑沙滩和冰川段之间最关键的住宿点。住在这里的好处是可以把 Reynisfjara、Dyrhólaey 和第二天向东的冰川路线衔接起来，避免早晚反复折返。"},
+  dyrholaey:{...POIS.dyrholaey, lp:"Dyrhólaey 的看点是海拱、灯塔、崖顶视角和黑沙滩的整体轮廓。夏季可能看到海鸟，但崖边风会很硬，拍照时不要越过边界线。"},
+  reynisfjara:{...POIS.reynisfjara, lp:"Reynisfjara 的黑沙来自火山岩被海浪长期磨碎，玄武岩柱和 Reynisdrangar 海蚀柱让这里很有辨识度。这里最重要的是安全：看警示灯，不背对海浪，不贴海边自拍。"},
+  fjadra:{...POIS.fjadra, lp:"Fjaðrárgljúfur 是一条被河流切开的峡谷，线条柔和，和南岸瀑布的垂直冲击不一样。短步道就能看到主要视角，雨后泥泞时只走开放路线。"},
+  skaftafell:{...POIS.skaftafell, lp:"Skaftafell 是 Vatnajökull 南侧最实用的徒步基地，冰川、瀑布和山坡视角集中。默认走 Svartifoss 往返线即可；想加量的人再考虑更长的 Sjónarnípa 方向。"},
+  svartifoss:{...POIS.svartifoss, lp:"Svartifoss 的背景是整齐的玄武岩柱，来自熔岩冷却收缩后的柱状节理。它的尺度不一定最大，但地貌辨识度很高，适合用 1.5-2 小时完成。"},
+  fjallsarlon:{...POIS.fjallsarlon, lp:"Fjallsárlón 比 Jökulsárlón 更安静，能更近距离感受冰舌、冰湖和漂浮冰块的关系。它适合放在冰湖日前半段，让大家先进入冰川景观。"},
+  jokulsarlon:{...POIS.jokulsarlon, lp:"Jökulsárlón 是冰山从 Breiðamerkurjökull 冰舌崩解后漂进湖里的地方，冰块会继续流向海边。Zodiac 船的价值是更接近冰山和冰川边缘，但即使不坐船，湖边和钻石沙滩也已经足够完整。"},
+  diamond:{...POIS.diamond, lp:"钻石沙滩上的冰块来自冰河湖，被潮汐和海浪推到黑沙滩上，所以每天数量和位置都不同。看起来最好的时候通常和潮汐、光线、当天冰量有关，不保证一定满地都是冰。"},
+  hofn:{...POIS.hofn, lp:"Höfn 是东南冰川段之后的现实落脚点，适合把高强度冰湖日收住。这里以海鲜和龙虾汤出名，晚餐可以作为当天的小奖励。"},
+  vestrahorn:{...POIS.vestrahorn, lp:"Vestrahorn / Stokksnes 的山体线条非常锋利，黑沙、浅水倒影和低云会决定照片效果。天气不好时它可能只是一次昂贵短停，晴天或云层低时优先级明显上升。"},
+  hvalnes:{...POIS.hvalnes, lp:"Hvalnes 是东峡湾开始前的海岸短停，灯塔、海滩和山海转折感很强。这里不用久留，适合长车程中让大家下车换换视野。"},
+  djupivogur:{...POIS.djupivogur, lp:"Djúpivogur 是东峡湾节奏变慢的一站，适合午餐、咖啡和港口散步。它的价值不是单个大景点，而是让从冰川段进入峡湾段的过渡更舒服。"},
+  petra:{...POIS.petra, lp:"Petra 石头博物馆是私人收藏，能看到东部矿物和石头的地方感。它很适合雨天或大家不想一直吹风看海岸的时候加入。"},
+  egils:{...POIS.egils, lp:"Egilsstaðir 是东部最实用的补给和住宿基地。这里不是环岛风景高潮，但超市、加油、住宿选择和去 Seyðisfjörður 的支线都很方便。"},
+  seydis:{...POIS.seydis, lp:"Seyðisfjörður 是峡湾小镇和彩虹街所在的支线，路上需要翻山口。天气清楚时很值得去；如果山口起雾或晚到，直接取消更稳。"},
+  studlagil:{...POIS.studlagil, lp:"Stuðlagil 的核心是玄武岩柱峡谷和蓝绿色河水，水色会受上游水量影响。东岸需要走一段路但角度更好，西岸更省体力；当天按天气和大家状态选。"},
+  dettifoss:{...POIS.dettifoss, lp:"Dettifoss 的特点不是高度，而是水量和声音压迫感。东西岸道路和视角不同，现场按路况选择，风大水雾重时相机和衣服都要做好防水。"},
+  hverir:{...POIS.hverir, lp:"Hverir 是米湖附近最直观的地热区，可以看到硫磺气味、泥浆池、喷气孔和浅色矿物沉积。所有越界线都不要踩，地表看似坚硬但可能很薄。"},
+  grjotagja:{...POIS.grjotagja, lp:"Grjótagjá 是熔岩洞里的温泉，水温和安全原因通常只适合参观。它适合和 Hverir、Dimmuborgir 放在同一段米湖地貌里理解。"},
+  dimmu:{...POIS.dimmu, lp:"Dimmuborgir 是熔岩冷却、塌陷后形成的迷宫状地貌，名字有“黑色城堡”的感觉。路线可长可短，适合在米湖日根据体力灵活安排。"},
+  myvatn:{...POIS.myvatn, lp:"米湖区把地热、熔岩、湖泊和鸟类放在很小范围内，是北部最适合慢慢看的区域。住宿如果订不到米湖，Húsavík 或 Akureyri 作为落脚点也合理。"},
+  husavik:{...POIS.husavik, lp:"Húsavík 是冰岛北部观鲸重镇，常见目标包括座头鲸、小须鲸等，具体取决于季节、风浪和当天海况。上午班通常更稳，出海前备好防风层和晕船药。"},
+  godafoss:{...POIS.godafoss, lp:"Goðafoss 位于 Húsavík 和 Akureyri 之间，停车后短走就能看到主视角。它的形态比 Dettifoss 更舒展，适合观鲸日作为轻量风景补充。"},
+  glaumbaer:{...POIS.glaumbaer, lp:"Glaumbær 草皮农庄能把冰岛传统建筑方式讲清楚：草皮保温、木材稀缺、房间连成一组。它适合给长途转场日加入一点历史内容。"},
+  hvitserkur:{...POIS.hvitserkur, lp:"Hvítserkur 是海边独立岩柱，远看像动物饮水，因此辨识度很高。它需要绕路，天气好、路况好、大家不赶时再加。"},
+  drangsnes:{...POIS.drangsnes, lp:"Drangsnes 海边热水桶适合长途转场后放松，体验比商业温泉更朴素。按现场说明付款或捐款，注意不要影响本地人使用。"},
+  hornstrandir:{...POIS.hornstrandir, lp:"Hornstrandir 是西峡湾最野的自然保护区之一，但它不是自驾顺路景点，需要船班、徒步计划和天气窗口。没有提前订好就不要把它当作当天固定项。"},
+  dynjandi:{...POIS.dynjandi, lp:"Dynjandi 是西峡湾最值得保留的瀑布点，主瀑像扇面一样展开，下面还有一串小瀑布。停车后逐级往上走，越靠近越能感受到尺度。"},
+  latrabjarg:{...POIS.latrabjarg, lp:"Látrabjarg 是欧洲西端的大型海鸟悬崖，夏季有机会看到海鸟。这里的风和边缘风险比拍照更重要，雾大或风大时不要靠近崖边。"},
+  ferry:{...POIS.ferry, lp:"Baldur 渡轮把西峡湾和斯奈山半岛直接连起来，能减少回头路。带车位需要提前订，并按船公司要求提前到港；错过船就会影响当天住宿。"},
+  kirkjufell:{...POIS.kirkjufell, lp:"Kirkjufell 是 Grundarfjörður 旁边非常有辨识度的山体，常见机位在 Kirkjufellsfoss 一侧。它的好看程度很受天气和光线影响，但作为斯奈山半岛标志点值得保留。"},
+  arnarstapi:{...POIS.arnarstapi, lp:"Arnarstapi 海岸有海蚀拱、玄武岩海岸和海鸟崖，短停也能看到主要风景。如果时间够，可以把 Hellnar-Arnarstapi 海岸步道作为轻徒步。"},
+  budir:{...POIS.budir, lp:"Búðakirkja 黑教堂本身很小，价值在于黑色建筑、草地、海岸和山景组合。它适合作为斯奈山南岸短停，不要占用太长时间。"},
+  ytritunga:{...POIS.ytritunga, lp:"Ytri Tunga 是轻量看海豹的停靠点，是否看到取决于潮汐、天气和运气。保持距离，不追逐、不堵住它们回海里的路线。"},
+  sky:{...POIS.sky, lp:"Sky Lagoon 更适合雷市收官，距离市区近，流程舒服，海景和七步仪式是主要体验。它比蓝湖更少占用机场方向时间。"},
+  blue:{...POIS.blue, lp:"蓝湖是冰岛最经典的地热温泉体验之一，适合放在抵达或离境日衔接机场。但它受火山和道路状态影响更明显，出票前要看官方更新。"}
+});
+
+const DAYS = [
+  {d:"D0",date:"7/18",title:"抵达雷克雅未克",stay:"雷克雅未克",km:55,drive:"约1h",spots:["kef","reykjavik"],route:"KEF -> Reykjavik",food:"机场简餐 / 雷市超市补给",music:"松",alt:"如果航班晚点，租车手续和晚餐全部降级为机场/住处附近。"},
+  {d:"D1",date:"7/19",title:"黄金圈 -> Hella",stay:"Hella",km:280,drive:"约4h",spots:["reykjavik","thingvellir","geysir","gullfoss","bruarfoss","kerid","hella"],route:"Reykjavik -> Thingvellir -> Geysir -> Gullfoss -> Bruarfoss/Kerid -> Hella",food:"Geysir/Friðheimar 方向午餐，Hella 晚餐",music:"景",alt:"Brúarfoss 和 Kerid 二选一；如果租车提车慢，直接少停一个点。"},
+  {d:"D2",date:"7/20",title:"兰德曼纳高地 -> Vík",stay:"Vík",km:330,drive:"约6h+",spots:["hella","sigoldu","landmannalaugar","seljalandsfoss","skogafoss","dc3","vik"],route:"Hella -> Sigoldugljufur -> Landmannalaugar -> Seljalandsfoss -> Skogafoss -> DC-3 -> Vik",food:"高地路餐/三明治，Vik 晚餐",music:"醒 / 景",alt:"F路关闭或风雨大：取消高地，改南岸慢玩；DC-3 和瀑布按体力删减。"},
+  {d:"D3",date:"7/21",title:"黑沙滩 + 冰川王国 -> Höfn",stay:"Höfn",km:310,drive:"约4.3h + 徒步",spots:["vik","dyrholaey","reynisfjara","fjadra","skaftafell","svartifoss","fjallsarlon","jokulsarlon","diamond","hofn"],route:"Vik -> Dyrholaey -> Reynisfjara -> Fjadrargljufur -> Skaftafell/Svartifoss -> Fjallsarlon -> Jokulsarlon/Diamond Beach -> Hofn",food:"Skaftafell 路餐，Hofn 龙虾汤/海鲜",music:"景",alt:"Svartifoss 2小时线为默认；5小时线给想多徒步的人。累的人可先开去 Hofn 入住。"},
+  {d:"D4",date:"7/22",title:"东峡湾 -> Egilsstaðir",stay:"Egilsstaðir",km:310,drive:"约4.5h",spots:["hofn","vestrahorn","hvalnes","djupivogur","petra","egils","seydis"],route:"Hofn -> Vestrahorn -> Hvalnes -> Djupivogur -> Petra -> Egilsstadir -> Seydisfjordur optional",food:"Djupivogur 午餐/咖啡，Egilsstadir 或 Seydisfjordur 晚餐",music:"景",alt:"山口起雾或晚到，不去 Seydisfjordur。"},
+  {d:"D5",date:"7/23",title:"Stuðlagil + Dettifoss + 米湖",stay:"Mývatn / Húsavík / Akureyri",km:330,drive:"约4.7h",spots:["egils","studlagil","dettifoss","hverir","grjotagja","dimmu","myvatn"],route:"Egilsstadir -> Studlagil -> Dettifoss -> Hverir -> Grjotagja -> Dimmuborgir -> Myvatn Nature Baths",food:"Egilsstadir 早餐，Vogafjos/米湖晚餐",music:"醒",alt:"Stuðlagil 东岸徒步4km视角好；西岸停车即看。米湖住宿难订，三地都可接受。"},
+  {d:"D6",date:"7/24",title:"Húsavík 观鲸 + 北部缓冲",stay:"Akureyri / Húsavík",km:180,drive:"约2.5-3h",spots:["myvatn","husavik","godafoss","akureyri"],route:"Myvatn/Akureyri -> Husavik whale watching -> Godafoss -> Akureyri",food:"Husavik 港口简餐，Akureyri 晚餐",music:"松",alt:"观鲸取消：鲸鱼博物馆 + GeoSea 或多玩 Godafoss/Akureyri。不要把西峡湾长途转场塞到同一天。"},
+  {d:"D7",date:"7/25",title:"北部转场 -> 西峡湾入口",stay:"Hólmavík / Ísafjörður",km:360,drive:"约4.8h+",spots:["akureyri","glaumbaer","blondous","hvitserkur","drangsnes","holmavik","isafjordur","hornstrandir"],route:"Akureyri -> Glaumbaer -> Blonduos -> Hvitserkur -> Drangsnes -> Holmavik / Isafjordur",food:"路餐为主，Holmavik/Isafjordur 晚餐",music:"唱 / 醒",alt:"Hornstrandir 不是顺路自驾点，只有订到船班且时间充足才执行；否则删除。"},
+  {d:"D8",date:"7/26",title:"西峡湾 + Baldur 渡轮",stay:"Stykkishólmur",km:300,drive:"约4.5h + ferry",spots:["holmavik","isafjordur","dynjandi","latrabjarg","ferry","stykk"],route:"Holmavik/Isafjordur -> Dynjandi -> Latrabjarg -> Brjanslaekur ferry -> Stykkisholmur",food:"西峡湾路餐，Stykkisholmur 晚餐",music:"景",alt:"按 ferja.is 班次倒推。若赶18:00船，17:00-17:15到港；赶不上则改陆路或改住处。"},
+  {d:"D9",date:"7/27",title:"斯奈山半岛 -> Reykjavík",stay:"Reykjavík",km:310,drive:"约4.5h",spots:["stykk","kirkjufell","arnarstapi","budir","ytritunga","reykjavik"],route:"Stykkisholmur -> Kirkjufell -> Arnarstapi -> Budakirkja -> Ytri Tunga -> Reykjavik",food:"Arnarstapi 鱼汤/路餐，雷市收官餐",music:"唱",alt:"如果前一天比较累，今天只保 Kirkjufell + Reykjavik。"},
+  {d:"D10",date:"7/28",title:"雷市半日 + 还车 + 返回 Lyon",stay:"Lyon 待定",km:60,drive:"约1h",spots:["reykjavik","sky","blue","kef"],route:"Reykjavik -> Sky Lagoon or Blue Lagoon -> KEF",food:"雷市早午餐，机场晚餐",music:"松 / 唱",alt:"如果19号早上租车，28号早上还车可避免多计一天；是否保车到机场取决于租车计费。"}
+];
+
+const BOOKINGS = [
+  ["租车", "现在", "2辆4x4 + GP/SAAP/碎石险优先", "高地和碎石路多，驾驶员信用卡/押金要提前确认。", [["Blue Car","https://www.bluecarrental.is/"],["Lotus","https://www.lotuscarrental.is/"],["Zero Car","https://www.zerocar.is/"]]],
+  ["住宿", "现在", "Vík / Höfn / Mývatn / Westfjords 最紧", "优先可取消；米湖订不到就 Húsavík 或 Akureyri。", [["Booking","https://www.booking.com/searchresults.html?ss=Iceland"],["Airbnb","https://www.airbnb.com/s/Iceland/homes?adults=8"]]],
+  ["Landmannalaugar", "前一晚", "F路开放 + 天气 + 车型", "不满足就执行南岸低地备案。", [["road.is","https://umferdin.is/en"],["SafeTravel","https://safetravel.is/conditions"]]],
+  ["Húsavík 观鲸", "提前1-2周", "木船稳、快艇刺激", "优先上午班；看运营方风浪取消通知。", [["Gentle Giants","https://www.gentlegiants.is/"],["North Sailing","https://www.northsailing.is/"],["Húsavík Adventures","https://www.husavikadventures.is/"]]],
+  ["Jökulsárlón Zodiac", "提前3-7天", "约75分钟，天气相关", "不坐船也不影响冰湖和钻石沙滩。", [["Ice Lagoon","https://icelagoon.is/zodiac-tours/"],["Glacier Lagoon","https://jokulsarlon.is/"],["Arctic Adventures","https://adventures.is/iceland/day-tours/boat-tours/jokulsarlon-glacier-lagoon-boat-tour/"]]],
+  ["Baldur ferry", "C线确定后立刻", "Brjánslækur -> Stykkishólmur 带车", "7月26日按出票时刻倒推；带车位要提前订。", [["Baldur ferry","https://ferja.is/en/our-ferries/baldur/sailing-schedule"]]],
+  ["Blue Lagoon / Sky Lagoon", "定行程后", "二选一或首尾各一个", "蓝湖看火山/道路更新；Sky Lagoon 更靠近雷市。", [["Blue Lagoon","https://www.bluelagoon.com/day-visit/the-blue-lagoon"],["Sky Lagoon","https://www.skylagoon.com/booking"]]]
+];
+
+const LODGING = [
+  ["7/18", "Reykjavík", "抵达后住雷市，方便租车、超市补给和倒时差。"],
+  ["7/19", "Hella", "黄金圈后落脚，第二天去高地更顺。"],
+  ["7/20", "Vík", "南岸核心住宿点，第二天黑沙滩和冰川日不用回头。"],
+  ["7/21", "Höfn", "冰湖后继续东行，晚餐和住宿选择相对现实。"],
+  ["7/22", "Egilsstaðir", "东峡湾后补给点，Seyðisfjörður 看天气加塞。"],
+  ["7/23-7/24", "Mývatn / Húsavík / Akureyri", "米湖最贴路线但难订；Húsavík 适合观鲸；Akureyri 住宿和补给选择更多。"],
+  ["7/25", "Hólmavík / Ísafjörður", "Hólmavík 车程更友好；Ísafjörður 更靠近西峡湾深处，但当天开车时间会明显增加。"],
+  ["7/26", "Stykkishólmur", "渡轮抵达后住宿，第二天逆时针玩斯奈山。"],
+  ["7/27", "Reykjavík", "收官夜和28日还车/温泉/机场衔接。"],
+  ["7/28", "Lyon 待定", "KEF 18:00 -> LYS 23:50 后大概率需要 Lyon 过夜。"]
+];
+
+const PLAYLISTS = [
+  ["松", "轻松开车", "落地、城市补给、短转场"],
+  ["景", "看风景", "瀑布、黑沙滩、峡湾和冰湖"],
+  ["醒", "提神开车", "长距离、高地、需要保持精神的路段"],
+  ["唱", "一起唱", "华语、J-pop、K-pop、大家熟的歌"]
+];
+
+const CHECKS = {
+  "出发前72小时":["确认 easyJet / FlixBus / 火车时刻和行李额","确认租车取还车时间，避免多计一天","下载 Google Maps 离线地图","安装 112 Iceland / Parka / SafeTravel"],
+  "推荐APP":["Google Maps 离线地图","112 Iceland","SafeTravel Iceland","Parka","Vedur / Icelandic Met Office","road.is / umferdin.is 网页收藏","Spotify 离线下载"],
+  "道路与天气":["每天早晚看 umferdin.is/road.is","高地日不涉水冒险","黑沙滩看 Safetravel 警示灯","风速大于15m/s时重新评估开车和海边活动"],
+  "装备":["防水冲锋衣裤","防水徒步鞋","泳衣和速干毛巾","眼罩耳塞","晕船药","车载多口USB-C充电器","2-3人拼一件托运行李"],
+  "补齐链接":["住宿订单链接","租车订单链接","观鲸订单链接","渡轮订单链接","Spotify歌单链接","Lyon过夜酒店"]
+};
+
+const dayColor = ["#2d7d93","#6f8b55","#d8b44d","#c85f3d","#2f6f9f","#7c6f3d","#3d8268","#a96b45","#7a8590","#1f718a","#4c7b63"];
+let map, routeLayer, markerLayer, currentDay = 0, langMode = "all", dayMaps = {};
+
+const enc = encodeURIComponent;
+function placeUrl(q){ return q ? "https://www.google.com/maps/search/?api=1&query=" + enc(q) : "#"; }
+function photosUrl(p){ return "https://www.google.com/search?tbm=isch&q=" + enc((p.is || p.zh) + " Iceland"); }
+function xhsUrl(p){ return "https://www.xiaohongshu.com/search_result?keyword=" + enc("冰岛 " + (p.is || p.nav || p.zh)); }
+function bookingUrl(area, rooms=1){ return "https://www.booking.com/searchresults.html?ss=" + enc(area + " Iceland") + "&group_adults=8&no_rooms=" + rooms + "&group_children=0"; }
+function airbnbUrl(area){ return "https://www.airbnb.com/s/" + enc(area + " Iceland") + "/homes?adults=8"; }
+function navName(p){ return p.nav || p.parkingNav || p.park || p.is || p.zh; }
+function areaSearch(area){ return area.split("/")[0].trim() + " Iceland"; }
+function dirUrl(keys){
+  const pts = keys.map(k => POIS[k]).filter(Boolean);
+  if(pts.length < 2) return "#";
+  const origin = navName(pts[0]);
+  const dest = navName(pts[pts.length-1]);
+  const waypoints = pts.slice(1,-1).map(navName).join("|");
+  return "https://www.google.com/maps/dir/?api=1&travelmode=driving&origin="+enc(origin)+"&destination="+enc(dest)+(waypoints ? "&waypoints="+enc(waypoints) : "");
+}
+function dateObj(offset){ const d = new Date(CONFIG.start+"T00:00:00Z"); d.setUTCDate(d.getUTCDate()+offset); return d; }
+function longDate(i){ const d = dateObj(i); return `${d.getUTCMonth()+1}月${d.getUTCDate()}日`; }
+function stopName(p){ return langMode === "local" ? p.is : `${p.zh}<span class="names">${p.is}</span>`; }
+function lpText(p){ return p.lp ? p.lp.replace(/^LP笔记：/,"") : ""; }
+function mapLabel(p){ return `${p.zh}<small>${p.is}</small>`; }
+function toast(msg){ const el = document.getElementById("toast"); el.textContent = msg; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),1600); }
+function escapeXml(s){ return String(s || "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c])); }
+function linkButtons(links){
+  const list = Array.isArray(links?.[0]) ? links : [["打开", links]];
+  return `<div class="links">${list.map(([label,url])=>`<a target="_blank" href="${url}">${label}</a>`).join("")}</div>`;
+}
+function routePreview(keys, title="当天路线"){
+  const pts = keys.map(k => POIS[k]).filter(Boolean);
+  if(!pts.length) return "";
+  const lats = pts.map(p => p.c[0]);
+  const lngs = pts.map(p => p.c[1]);
+  const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+  const minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+  const pad = 46;
+  const w = 720, h = 420;
+  const spanLat = Math.max(maxLat - minLat, .05);
+  const spanLng = Math.max(maxLng - minLng, .05);
+  const project = p => {
+    const x = pad + ((p.c[1] - minLng) / spanLng) * (w - pad * 2);
+    const y = pad + ((maxLat - p.c[0]) / spanLat) * (h - pad * 2);
+    return [x, y];
+  };
+  const points = pts.map(project);
+  const path = points.map(([x,y],i)=>`${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+  const markers = pts.map((p,i)=>{
+    const [x,y] = points[i];
+    const fill = p.kind === "stay" ? "#c85f3d" : p.kind === "ferry" ? "#d8b44d" : "#2d7d93";
+    const label = p.kind === "stay" ? "⌂" : p.kind === "ferry" ? "F" : i + 1;
+    return `<g><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="12" fill="${fill}" stroke="#fff" stroke-width="4"/><text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="800" fill="#fff">${label}</text></g>`;
+  }).join("");
+  const labels = pts.filter((p,i)=>i===0 || i===pts.length-1 || p.kind==="stay").map((p,i)=>{
+    const [x,y] = project(p);
+    return `<text x="${Math.min(w-170, x+15).toFixed(1)}" y="${Math.max(28, y-10).toFixed(1)}" font-family="Arial,sans-serif" font-size="13" font-weight="800" fill="#173238">${escapeXml(p.zh)}</text>`;
+  }).join("");
+  return `<svg class="route-preview" viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeXml(title)}">
+    <defs><linearGradient id="routeBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dceff2"/><stop offset="1" stop-color="#f7f3ea"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" rx="12" fill="url(#routeBg)"/>
+    <path d="M44 317 C155 268 211 304 325 244 C440 183 536 211 676 122" fill="none" stroke="rgba(255,255,255,.58)" stroke-width="58" stroke-linecap="round"/>
+    <path d="${path}" fill="none" stroke="#2f8297" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    ${markers}
+    ${labels}
+    <text x="22" y="34" font-family="Arial,sans-serif" font-size="16" font-weight="900" fill="#173238">${escapeXml(title)}</text>
+    <text x="22" y="58" font-family="Arial,sans-serif" font-size="12" fill="#52666d">地图预览 / 点击按钮打开 Google Maps</text>
+  </svg>`;
+}
+function setRouteFallback(el, keys, title){
+  if(el){
+    el.dataset.mapFallback = "1";
+    el.innerHTML = routePreview(keys, title);
+  }
+}
+function ensureLeafletVisible(el, keys, title){
+  setTimeout(()=>{
+    if(!el || el.querySelector(".leaflet-marker-icon")) return;
+    setRouteFallback(el, keys, title);
+  }, 1400);
+}
+
+function renderHeroRows(){
+  document.getElementById("heroRows").innerHTML = DAYS.map(d => `
+    <div class="route-row">
+      <strong>${d.d}<small>${d.date}</small></strong>
+      <div>${d.title}<small>${d.route}</small></div>
+      <span class="km">${d.km}km</span>
+    </div>`).join("");
+}
+
+function renderTabs(){
+  document.getElementById("dayTabs").innerHTML = DAYS.map((d,i)=>`<button class="${i===currentDay?"active":""}" data-day="${i}">${d.d} ${d.date}</button>`).join("");
+  document.querySelectorAll("[data-day]").forEach(btn => btn.onclick = () => { currentDay = +btn.dataset.day; renderActiveDay(); drawMap(); renderTabs(); });
+}
+
+function renderActiveDay(){
+  const d = DAYS[currentDay];
+  document.getElementById("activeDay").innerHTML = `
+    <span class="pill">${longDate(currentDay)} · ${d.stay}</span>
+    <h3>${d.title}</h3>
+    <p class="route">${d.route}</p>
+    <div class="meta"><span class="pill warn">${d.km} km</span><span class="pill">${d.drive}</span><span class="pill good">${d.music}</span></div>
+    <div class="route-tools">
+      <a target="_blank" href="${dirUrl(d.spots)}">打开当天 Google Maps 导航</a>
+      <button type="button" onclick="copyDay(${currentDay})">复制当天路线</button>
+    </div>
+    <div class="soft" style="margin-top:12px"><b>现场备案：</b>${d.alt}</div>`;
+}
+
+function markerIcon(p, idx){
+  const cls = p.kind === "stay" ? "stay" : p.kind === "ferry" ? "ferry" : "stop";
+  const house = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M3 10.8 12 3l9 7.8-1.4 1.6-1.1-1v8.1h-5.2v-5.2h-2.6v5.2H5.5v-8.1l-1.1 1L3 10.8Z"/></svg>';
+  const label = p.kind === "stay" ? house : p.kind === "ferry" ? "F" : idx;
+  return L.divIcon({className:"", html:`<div class="marker ${cls}">${label}</div>`, iconSize:[26,26], iconAnchor:[13,13]});
+}
+
+function initMap(){
+  const el = document.getElementById("map");
+  if(typeof L === "undefined"){
+    setRouteFallback(el, DAYS[currentDay].spots, DAYS[currentDay].title);
+    return;
+  }
+  try{
+    delete el.dataset.mapFallback;
+    map = L.map(el, {scrollWheelZoom:false}).setView([64.9,-18.6], 6);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom:18, attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+    routeLayer = L.layerGroup().addTo(map);
+    markerLayer = L.layerGroup().addTo(map);
+    drawMap();
+  }catch(e){
+    setRouteFallback(el, DAYS[currentDay].spots, DAYS[currentDay].title);
+  }
+}
+
+function drawMap(){
+  if(!map) return;
+  const el = document.getElementById("map");
+  const d = DAYS[currentDay];
+  if(el?.dataset.mapFallback){
+    setRouteFallback(el, d.spots, d.title);
+    return;
+  }
+  routeLayer.clearLayers();
+  markerLayer.clearLayers();
+  DAYS.forEach((d,i)=>{
+    const coords = d.spots.map(k => POIS[k]?.c).filter(Boolean);
+    if(coords.length > 1){
+      L.polyline(coords, {color: dayColor[i%dayColor.length], weight: i===currentDay ? 6 : 3, opacity: i===currentDay ? .95 : .32}).addTo(routeLayer);
+    }
+  });
+  d.spots.forEach((k,i)=>{
+    const p = POIS[k]; if(!p) return;
+    const parkLink = p.parkingNav ? ` · <a href="${placeUrl(p.parkingNav)}" target="_blank">停车点</a>` : "";
+    const ticketLink = p.ticket ? ` · <a href="${p.ticket}" target="_blank">购票/预约</a>` : "";
+    const lp = lpText(p);
+    const pop = `<b>${p.zh}</b><br>${p.is}<br><span style="color:#52666d">${p.intro}</span>${lp ? `<div class="popup-lp">${lp}</div>` : ""}<br><a href="${placeUrl(navName(p))}" target="_blank">地点导航</a>${parkLink}${ticketLink} · <a href="${photosUrl(p)}" target="_blank">图片</a> · <a href="${xhsUrl(p)}" target="_blank">小红书</a> · <a href="${dirUrl(d.spots)}" target="_blank">当天路线</a>`;
+    L.marker(p.c, {icon:markerIcon(p,i+1)}).bindPopup(pop).bindTooltip(mapLabel(p), {permanent:true, direction:"auto", className:"map-label", offset:[10,0]}).addTo(markerLayer);
+  });
+  const bounds = L.latLngBounds(d.spots.map(k => POIS[k]?.c).filter(Boolean));
+  if(bounds.isValid()) map.fitBounds(bounds, {padding:[34,34]});
+  setTimeout(()=>map.invalidateSize(),80);
+  ensureLeafletVisible(document.getElementById("map"), d.spots, d.title);
+}
+
+function renderDayMiniMap(i){
+  const el = document.getElementById(`day-map-${i}`);
+  if(!el) return;
+  if(typeof L === "undefined"){
+    setRouteFallback(el, DAYS[i].spots, DAYS[i].title);
+    return;
+  }
+  if(dayMaps[el.id]){
+    setTimeout(()=>dayMaps[el.id].invalidateSize(),80);
+    return;
+  }
+  const d = DAYS[i];
+  try{
+    const m = L.map(el, {scrollWheelZoom:false, zoomControl:false, attributionControl:false}).setView([64.9,-18.6], 6);
+    dayMaps[el.id] = m;
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom:18}).addTo(m);
+    const coords = d.spots.map(k => POIS[k]?.c).filter(Boolean);
+    if(coords.length > 1) L.polyline(coords, {color:dayColor[i%dayColor.length], weight:4, opacity:.9}).addTo(m);
+    d.spots.forEach((k,j)=>{
+      const p = POIS[k]; if(!p) return;
+      L.marker(p.c, {icon:markerIcon(p,j+1)}).bindPopup(`<b>${p.zh}</b><br>${p.is}<br><a target="_blank" href="${placeUrl(navName(p))}">地点导航</a>`).addTo(m);
+    });
+    const bounds = L.latLngBounds(coords);
+    if(bounds.isValid()) m.fitBounds(bounds, {padding:[24,24]});
+    setTimeout(()=>m.invalidateSize(),120);
+    ensureLeafletVisible(el, d.spots, d.title);
+  }catch(e){
+    setRouteFallback(el, d.spots, d.title);
+  }
+}
+
+function renderOpenDayMaps(root=document){
+  root.querySelectorAll(".day-card:not(.collapsed)").forEach(card => renderDayMiniMap(+card.dataset.dayCard));
+}
+
+function stopHTML(k, idx){
+  const p = POIS[k]; if(!p) return "";
+  const park = p.parkingNav ? `<div class="info-line"><b>停车：</b>${p.parkingNav}<br>${p.parking}</div>` : `<div class="info-line"><b>停车：</b>住宿或城镇停靠，不单独设停车导航</div>`;
+  const fee = p.parkingNav ? `<div class="info-line"><b>费用：</b>${p.pay}</div>` : `<div class="info-line"><b>导航：</b>${navName(p)}</div>`;
+  const ticket = p.ticket ? `<a target="_blank" href="${p.ticket}">购票/预约</a>` : "";
+  const parkingLink = p.parkingNav ? `<a target="_blank" href="${placeUrl(p.parkingNav)}">停车点导航</a>` : "";
+  return `<div class="stop" data-search="${[p.zh,p.is,p.no,p.nav,p.parkingNav,p.intro,p.lp].join(" ").toLowerCase()}">
+    <div class="stop-num">${idx}</div>
+    <div class="stop-card">
+      <div>
+        <h4>${stopName(p)}</h4>
+        <p>${p.intro}</p>
+        ${p.lp ? `<div class="lp-note">${lpText(p)}</div>` : ""}
+        <div class="stop-info">
+          ${park}
+          ${fee}
+          <div class="info-line"><b>当天定位：</b>${p.kind === "stay" ? "住宿/补给地" : p.kind === "ferry" ? "渡轮码头" : "景点停靠"}</div>
+        </div>
+        <div class="links">
+          <a target="_blank" href="${placeUrl(navName(p))}">地点导航</a>
+          ${parkingLink}
+          ${ticket}
+          <a target="_blank" href="${photosUrl(p)}">Google 照片</a>
+          <a target="_blank" href="${xhsUrl(p)}">小红书</a>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderDays(){
+  dayMaps = {};
+  document.getElementById("dayList").innerHTML = DAYS.map((d,i)=>`
+    <article class="day-card ${i===0 ? "" : "collapsed"}" data-day-card="${i}">
+      <div class="date-rail"><b>${d.d}</b><span>${longDate(i)}<br>${d.stay}</span></div>
+      <div class="day-main">
+        <div class="day-head">
+          <div><h3>${d.title}</h3><p class="lede">${d.route}</p></div>
+          <div class="meta"><span class="pill">${d.km} km</span><span class="pill warn">${d.drive}</span><button class="day-toggle" type="button" data-toggle-day="${i}">${i===0 ? "收起" : "展开"}</button></div>
+        </div>
+        <div class="day-content">
+          <div class="day-content-grid">
+            <div class="stops">${d.spots.map((k,j)=>stopHTML(k,j+1)).join("")}</div>
+            <aside class="day-side">
+              <div class="day-map" id="day-map-${i}" aria-label="${d.title} 小地图"></div>
+              <div class="soft"><b>停车/费用：</b>每个停靠点卡片里都有停车点、付款方式和现场规则；没有单独停车点的城镇按住宿或市区停车处理。</div>
+              <div class="route-tools">
+                <a target="_blank" href="${dirUrl(d.spots)}">打开当天 Google Maps 导航</a>
+                <button type="button" onclick="copyDay(${i})">复制当天路线</button>
+              </div>
+            </aside>
+          </div>
+          <div class="day-note">
+            <div class="soft"><b>餐食：</b>${d.food}</div>
+            <div class="soft"><b>歌单：</b>${d.music}</div>
+            <div class="soft"><b>当天可调整：</b>${d.alt}</div>
+          </div>
+        </div>
+      </div>
+    </article>`).join("");
+  document.querySelectorAll("[data-toggle-day]").forEach(btn => btn.onclick = () => {
+    const card = btn.closest(".day-card");
+    card.classList.toggle("collapsed");
+    btn.textContent = card.classList.contains("collapsed") ? "展开" : "收起";
+    if(!card.classList.contains("collapsed")){
+      renderDayMiniMap(+card.dataset.dayCard);
+    }
+  });
+  renderOpenDayMaps();
+}
+
+function renderBooking(){
+  document.getElementById("bookingTable").innerHTML = `<thead><tr><th>项目</th><th>何时</th><th>判断</th><th>说明</th><th>入口</th></tr></thead><tbody>`+
+    BOOKINGS.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${linkButtons(r[4])}</td></tr>`).join("") + `</tbody>`;
+  document.getElementById("lodgingList").innerHTML = LODGING.map(r=>`<div class="decision"><b>${r[0]} · ${r[1]}</b>${r[2]}<div class="links"><a target="_blank" href="${bookingUrl(r[1],1)}">Booking 8人/1套</a><a target="_blank" href="${bookingUrl(r[1],2)}">Booking 8人/2套</a><a target="_blank" href="${airbnbUrl(r[1])}">Airbnb 8人</a><a target="_blank" href="${placeUrl(areaSearch(r[1]))}">地图</a></div></div>`).join("");
+}
+
+function renderPlaylists(){
+  document.getElementById("playlistGrid").innerHTML = PLAYLISTS.map(p=>`
+    <article class="card playlist-card">
+      <h4><span class="playlist-letter">${p[0]}</span>${p[1]}</h4>
+      <p>${p[2]}</p>
+      <input placeholder="Spotify 歌单链接">
+    </article>`).join("");
+}
+
+function renderChecklist(){
+  document.getElementById("checklist").innerHTML = Object.entries(CHECKS).map(([cat,items])=>`
+    <article class="card check-card">
+      <h3>${cat}</h3>
+      ${items.map((x,i)=>`<label><input type="checkbox" data-check="${cat}-${i}"><span>${x}</span></label>`).join("")}
+    </article>`).join("");
+}
+
+function copyDay(i){
+  const d = DAYS[i];
+  const names = d.spots.map(k => POIS[k]?.zh + " / " + POIS[k]?.is).filter(Boolean).join(" -> ");
+  navigator.clipboard?.writeText(`${d.date} ${d.title}\n${names}\n住宿：${d.stay}\n车程：${d.km}km，${d.drive}\n备案：${d.alt}\n导航：${dirUrl(d.spots)}`);
+  toast("已复制当天路线");
+}
+
+function bindSearch(){
+  const input = document.getElementById("searchBox");
+  input.addEventListener("input", ()=>{
+    const q = input.value.trim().toLowerCase();
+    document.querySelectorAll(".stop").forEach(el => {
+      const hit = !q || el.dataset.search.includes(q);
+      el.classList.toggle("no-match", !hit);
+    });
+    if(q){
+      const first = [...document.querySelectorAll(".stop")].find(el => !el.classList.contains("no-match"));
+      if(first) first.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+  });
+}
+
+function bindUI(){
+  document.getElementById("printBtn").onclick = () => window.print();
+  document.getElementById("expandAll").onclick = () => {
+    const cards = [...document.querySelectorAll(".day-card")];
+    const shouldOpen = cards.some(c => c.classList.contains("collapsed"));
+    cards.forEach(c => {
+      c.classList.toggle("collapsed", !shouldOpen);
+      const b = c.querySelector(".day-toggle");
+      if(b) b.textContent = shouldOpen ? "收起" : "展开";
+    });
+    if(shouldOpen) renderOpenDayMaps(document);
+    document.getElementById("days").scrollIntoView({behavior:"smooth"});
+  };
+  document.getElementById("copySummary").onclick = () => {
+    const text = DAYS.map((d,i)=>`${d.date} ${d.title}: ${d.route} | 住宿 ${d.stay}`).join("\n");
+    navigator.clipboard?.writeText(`冰岛环岛 2026.07.18-07.28\n${CONFIG.outbound}\n${CONFIG.inbound}\n\n${text}`);
+    toast("已复制行程摘要");
+  };
+  const playlistPrompt = document.getElementById("copyPlaylistPrompt");
+  if(playlistPrompt){
+    playlistPrompt.onclick = () => {
+      navigator.clipboard?.writeText("请大家把想在冰岛车上听的歌加到对应 Spotify 共享歌单里。我们按 4 类分：松=轻松开车，景=看风景，醒=提神开车，唱=一起唱。尽量选适合开车、不太吵、离线可下载的版本。");
+      toast("已复制加歌说明");
+    };
+  }
+  document.querySelectorAll("[data-lang]").forEach(btn => btn.onclick = () => {
+    langMode = btn.dataset.lang;
+    document.querySelectorAll("[data-lang]").forEach(b => b.classList.toggle("active", b === btn));
+    renderDays();
+    renderOpenDayMaps();
+  });
+  window.addEventListener("scroll", ()=>{
+    const ids = ["confirm","route","days","booking","music","todo"];
+    let cur = ids[0];
+    ids.forEach(id => { const el=document.getElementById(id); if(el && el.getBoundingClientRect().top < 130) cur=id; });
+    document.querySelectorAll(".topnav a").forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#"+cur));
+  });
+}
+
+function renderAll(){
+  renderHeroRows();
+  renderTabs();
+  renderActiveDay();
+  renderDays();
+  renderBooking();
+  renderPlaylists();
+  renderChecklist();
+  bindSearch();
+  bindUI();
+  initMap();
+}
+
+renderAll();
+</script>
+</body>
+</html>
